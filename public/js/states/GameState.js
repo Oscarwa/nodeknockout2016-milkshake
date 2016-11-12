@@ -1,7 +1,7 @@
 import { sendTargetData, sendShootData } from 'utils/sockets'
 import globals from 'utils/globals'
 
-class MainState extends Phaser.State {
+class GameState extends Phaser.State {
   create() {
     //physics & setup
     this.game.stage.backgroundColor = '#3498DB';
@@ -49,4 +49,4 @@ class MainState extends Phaser.State {
   }
 }
 
-export default MainState
+export default GameState

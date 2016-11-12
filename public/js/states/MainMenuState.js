@@ -1,4 +1,4 @@
-import MainState from 'states/MainState'
+import GameState from 'states/GameState'
 import { socketEvent } from 'utils/sockets'
 import globals from 'utils/globals'
 import constants from 'utils/constants'
@@ -33,7 +33,7 @@ class MainMenuState extends Phaser.State {
 
     this.game.input.keyboard.addCallbacks(this, null, null, this.keyPress)
 
-    this.game.state.add('main', MainState);
+    this.game.state.add('game', GameState);
   }
 
   deleteCharFromName() {
@@ -53,7 +53,7 @@ class MainMenuState extends Phaser.State {
     socketEvent('saveName', globals.username)
     this.bmd.cls()
     this.nameMsg.cls()
-    this.game.state.start('main')
+    this.game.state.start('game')
   }
 }
 
