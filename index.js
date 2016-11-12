@@ -14,16 +14,39 @@ var server = app.listen(app.get('port'), function() {
 app.io = socket_io(server);
 
 // socket io events
+
+function initTarget() {
+  return {
+    points: Math.floor(Math.random() * 10) + 1,
+    id: new Date().getTime(),
+    velocity: {
+      x: 300 + Math.floor(600 * Math.random()),
+      y: 300 + Math.floor(600 * Math.random())
+    },
+    startPosition: {
+      x: Math.floor(800 * Math.random()),
+      y: Math.floor(600 * Math.random())
+    }
+  }
+}
+var currentTarget = initTarget();
+
 app.io.on('connection', function(socket) {
 
-  socket.on('shoot', function(data) {
-    console.info(data);
-    socket.emit('shoot', data);
+  socket.on('init', function(data) {
+    socket.emit('init', currentTarget)
   });
+
+  socket.on('shoot', function(data) {
+    //console.info(data);
+    currentTarget = initTarget()
+    app.io.emit('shoot', {data: data, target: currentTarget});
+  });
+
 
   socket.on('saveName', function(name) {
     users.push({ name: name })
-    socket.emit('namesUpdated', users)
+    app.io.emit('namesUpdated', users)
   })
 
   socket.on('getNamesList', function(){
