@@ -12,10 +12,22 @@ module.exports = {
     publicPath: '/static/'
   },
   module: {
-    loaders: [{
-      test: /\.js/,
-      loaders: ['babel'],
-      include: path.join(__dirname, 'src')
-    }]
-  }
+    loaders: [
+      {
+        test: /\.js/,
+        loaders: [
+          {
+            test: /.js/, 
+            exclude: /node_modules/, 
+            loader: 'babel',
+            query: {
+              presets: ['es2015', 'stage-0', 'react']
+            }
+          }
+        ],
+        include: path.join(__dirname, 'src')
+      }
+    ]
+  },
+  resolve: ['node_modules']
 }
