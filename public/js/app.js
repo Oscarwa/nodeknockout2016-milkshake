@@ -1,3 +1,7 @@
+const constants = {
+  ENTER_NAME_MSG: 'Please enter your name'
+}
+
 // socket.io events and handles
 const socket = io();
 let USERNAME = ''
