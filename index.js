@@ -1,11 +1,13 @@
 var express = require('express')
 var socket_io = require('socket.io');
 var app = express()
+var _ = require('lodash')
+
 
 app.set('port', (process.env.PORT || 5000))
 app.use(express.static(__dirname + '/dist'))
 
-const users = []
+var users = []
 
 var server = app.listen(app.get('port'), function() {
   console.log("Node app is running at localhost:" + app.get('port'))
@@ -31,7 +33,19 @@ function initTarget() {
 }
 var currentTarget = initTarget();
 
+app.get('/users/list', function(req, res){
+  users = _.filter(users, (user) => {
+    return user.name
+  })
+  res.send(users)
+})
+
 app.io.on('connection', function(socket) {
+  var userData = {
+    id: socket.id
+  }
+
+  users.push(userData)
 
   socket.on('init', function(data) {
     socket.emit('init', currentTarget)
@@ -49,7 +63,18 @@ app.io.on('connection', function(socket) {
     app.io.emit('namesUpdated', users)
   })
 
-  socket.on('getNamesList', function(){
+  socket.on('nameChanged', function(name) {
+    userData.name = name
+    socket.broadcast.emit('namesUpdated', users)
+  })
+
+  socket.on('disconnect', function(data) {
+    console.log(users.length)
+    users = _.filter(users, function(user){
+      return user.id !== socket.id
+    })
+    console.log(users.length)
+    socket.broadcast.emit('namesUpdated', users)
   })
 
 });
