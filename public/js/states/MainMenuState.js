@@ -14,11 +14,6 @@ class MainMenuState extends Phaser.State {
     const enter = this.game.input.keyboard.addKey(Phaser.KeyCode.ENTER)
     enter.onDown.add(this.saveName, this)
 
-    this.namesList = this.game.make.bitmapData(800, 600)
-    this.namesList.context.font = '16px Arial'
-    this.namesList.context.fillStyle = '#ffffff'
-    this.namesList.addToWorld()
-
     this.nameMsg = this.game.make.bitmapData(800, 200)
     this.nameMsg.context.font = '32px Arial'
     this.nameMsg.context.fillStyle = '#ffffff'

@@ -14,6 +14,14 @@ class GameState extends Phaser.State {
     this.target.anchor.set(0.5);
     this.target.scale.set(0.2);
 
+    //users list
+    this.namesList = this.game.make.bitmapData(800, 600)
+    this.namesList.context.font = '16px Arial'
+    this.namesList.context.fillStyle = '#ffffff'
+    this.namesList.addToWorld()
+
+    addListener('namesUpdated', this.updateList)
+
     //target physics
     this.game.physics.arcade.enable(this.target);
     this.target.inputEnabled = true;
@@ -31,6 +39,13 @@ class GameState extends Phaser.State {
     //this.setTargetPosition();
   }
 
+  updateList = (names) => {
+    console.log('UPDATING LIST')
+    this.namesList.cls()
+    const usersList = names.reduce((prev, next) =>`${prev} ${next.name}`, 'Users:')
+    this.namesList.context.fillText(usersList, 64, 300)
+  }
+  
   setTargetPosition(data) {
     this.target.reset(data.startPosition.x, data.startPosition.y);
     this.target.body.velocity.x = data.velocity.x;

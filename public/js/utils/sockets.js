@@ -15,3 +15,5 @@ export const sendTargetData = (data) => {
 export const socketListen = (eventName, callback) => {
   socket.on(eventName, callback);
 }
+
+export default socket
