@@ -18,10 +18,16 @@ class GameState extends Phaser.State {
     this.target.scale.set(0.2);
 
     //users list
-    this.namesList = this.game.make.bitmapData(800, 600)
-    this.namesList.context.font = '22px Arial'
-    this.namesList.context.fillStyle = '#ffffff'
-    this.namesList.addToWorld()
+    this.namesList = this.game.add.text(700, 50, 'testing text', {
+      font: '22px Asul',
+      fill: '#ffffff'
+    })
+    // this.namesList = this.game.make.bitmapData(800, 600)
+    // this.namesList.context.font = '22px Asul'
+    // this.namesList.context.lineSpacing = 20
+    // this.namesList.context.fillStyle = '#ffffff'
+    // this.namesList.addToWorld()
+
 
     socketListen('namesUpdated', this.updateList)
 
@@ -59,9 +65,9 @@ class GameState extends Phaser.State {
   }
 
   updateList = (names) => {
-    this.namesList.cls()
-    const usersList = names.reduce((prev, next) =>`${prev} ${next.name}`, 'Users:')
-    this.namesList.context.fillText(usersList, 64, 560)
+    const usersList = names.reduce((prev, next) =>`${prev}${next.name}  ${50}\n`, 'Users:\n')
+    debugger
+    this.namesList.setText(usersList)
   }
 
   setTargetPosition(data) {
