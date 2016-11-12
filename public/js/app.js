@@ -4,7 +4,7 @@ const constants = {
 
 // socket.io events and handles
 const socket = io();
-let USERNAME = ''
+let username = ''
 
 const socketEvent = (eventName, data) => {
   socket.emit(eventName, data);
@@ -25,6 +25,9 @@ const create = () => {
   const backspace = game.input.keyboard.addKey(Phaser.KeyCode.BACKSPACE)
   backspace.onDown.add(deleteCharFromName, this)
 
+  const enter = game.input.keyboard.addKey(Phaser.KeyCode.ENTER)
+  enter.onDown.add(saveName, this)
+
   target.anchor.set(0.5);
   target.scale.set(0.2);
   target.inputEnabled = true;
@@ -39,21 +42,28 @@ const create = () => {
   this.bmd = game.make.bitmapData(800,200)
   this.bmd.context.font = '64px Arial'
   this.bmd.context.fillStyle = '#ffffff'
-  this.bmd.context.fillText(USERNAME, 64, 128)
+  this.bmd.context.fillText(username, 64, 128)
   this.bmd.addToWorld()
 
   game.input.keyboard.addCallbacks(this, null, null, keyPress)
 }
 
 const keyPress = (char) => {
-  USERNAME+=char
+  username+=char
   this.bmd.cls()
-  this.bmd.context.fillText(USERNAME, 64, 128)
+  this.bmd.context.fillText(username, 64, 128)
 }
 const deleteCharFromName = () => {
-  USERNAME = USERNAME.slice(0, USERNAME.length-1)
+  username = username.slice(0, username.length-1)
   this.bmd.cls()
-  this.bmd.context.fillText(USERNAME, 64, 128)
+  this.bmd.context.fillText(username, 64, 128)
+}
+
+const saveName = () => {
+  this.name = username
+  alert(`Saved your name as:${this.name}`)
+  this.bmd.cls()
+  this.nameMsg.cls()
 }
 
 const update = () => {
