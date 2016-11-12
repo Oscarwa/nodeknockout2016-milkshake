@@ -1,6 +1,5 @@
 import { socketEvent, sendTargetData, sendShootData, socketListen } from 'utils/sockets'
 import globals from 'utils/globals'
-import fetch from 'isomorphic-fetch'
 
 class GameState extends Phaser.State {
 
@@ -20,19 +19,11 @@ class GameState extends Phaser.State {
 
     //users list
     this.namesList = this.game.make.bitmapData(800, 600)
-    this.namesList.context.font = '16px Arial'
+    this.namesList.context.font = '22px Arial'
     this.namesList.context.fillStyle = '#ffffff'
     this.namesList.addToWorld()
 
     socketListen('namesUpdated', this.updateList)
-
-    fetch('/users/list')
-      .then((res) => {
-        return res.text()
-      })
-      .then(function(users){
-        this.updateList(JSON.parse(users))
-      }.bind(this))
 
     //target physics
     this.game.physics.arcade.enable(this.target);
@@ -70,7 +61,7 @@ class GameState extends Phaser.State {
   updateList = (names) => {
     this.namesList.cls()
     const usersList = names.reduce((prev, next) =>`${prev} ${next.name}`, 'Users:')
-    this.namesList.context.fillText(usersList, 64, 300)
+    this.namesList.context.fillText(usersList, 64, 560)
   }
 
   setTargetPosition(data) {
@@ -89,7 +80,8 @@ class GameState extends Phaser.State {
     socketEvent('init');
 
     socketListen('init', (data) => {
-      this.setTargetPosition(data);
+      this.setTargetPosition(data.target);
+      this.updateList(data.users)
     });
 
     socketListen('shoot', (data) => {

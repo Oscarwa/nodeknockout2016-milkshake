@@ -48,7 +48,10 @@ app.io.on('connection', function(socket) {
   users.push(userData)
 
   socket.on('init', function(data) {
-    socket.emit('init', currentTarget)
+    socket.emit('init', {
+      target: currentTarget,
+      users: users
+    })
   });
 
   socket.on('shoot', function(data) {
