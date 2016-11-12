@@ -2,7 +2,14 @@ const socket = io();
 
 export const socketEvent = (eventName, data) => {
   socket.emit(eventName, data);
-  console.log('emitted', eventName, 'with Data', data)
+}
+
+export const sendShootData = (data) => {
+  socketEvent('shoot', data)
+}
+
+export const sendTargetData = (data) => {
+  socketEvent('targetClicked', data)
 }
 
 export const socketListen = (eventName, callback) => {

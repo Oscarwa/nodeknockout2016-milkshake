@@ -1,8 +1,10 @@
-import { socketEvent, socketListen } from 'utils/sockets'
+import { sendTargetData, sendShootData, socketListen } from 'utils/sockets'
+import globals from 'utils/globals'
 
-class MainState extends Phaser.State {
+class GameState extends Phaser.State {
 
   create() {
+    //physics & setup
     this.game.stage.backgroundColor = '#3498DB';
     this.game.physics.startSystem(Phaser.Physics.Arcade);
     this.game.renderer.renderSession.roundPixels = true;
@@ -25,7 +27,7 @@ class MainState extends Phaser.State {
   }
 
   shoot() {
-    socketEvent('shoot', {player: this.username});
+    sendShootData({ player: globals.username });
     //this.setTargetPosition();
   }
 
@@ -52,5 +54,4 @@ class MainState extends Phaser.State {
     });
   }
 
-}
-export default MainState
+export default GameState

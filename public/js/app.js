@@ -1,6 +1,4 @@
-import hello from 'x'
 var socket = io();
-import renderNameInfo from 'UI'
 socket.on('shoot', function(data) {
   console.log(data);
   mainState.setTargetPosition(data.target);

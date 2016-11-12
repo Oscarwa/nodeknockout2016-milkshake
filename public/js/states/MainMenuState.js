@@ -1,13 +1,12 @@
-import MainState from 'states/MainState'
+import GameState from 'states/GameState'
 import { socketEvent } from 'utils/sockets'
+import globals from 'utils/globals'
+import constants from 'utils/constants'
 
-const constants = {
-  ENTER_NAME_MSG: 'Please enter your name'
-}
 
 class MainMenuState extends Phaser.State {
   create() {
-    this.username = ''
+    globals.username = ''
 
     const backspace = this.game.input.keyboard.addKey(Phaser.KeyCode.BACKSPACE)
     backspace.onDown.add(this.deleteCharFromName, this)
@@ -23,39 +22,38 @@ class MainMenuState extends Phaser.State {
     this.nameMsg = this.game.make.bitmapData(800, 200)
     this.nameMsg.context.font = '32px Arial'
     this.nameMsg.context.fillStyle = '#ffffff'
-    this.nameMsg.context.fillText(constants.ENTER_NAME_MSG, 64, 64)
+    this.nameMsg.context.fillText(constants.ENTER_NAME, 64, 64)
     this.nameMsg.addToWorld()
 
     this.bmd = this.game.make.bitmapData(800,200)
     this.bmd.context.font = '64px Arial'
     this.bmd.context.fillStyle = '#ffffff'
-    this.bmd.context.fillText('me', 64, 128)
+    this.bmd.context.fillText('', 64, 128)
     this.bmd.addToWorld()
 
     this.game.input.keyboard.addCallbacks(this, null, null, this.keyPress)
 
-    this.game.state.add('main', MainState);
+    this.game.state.add('game', GameState);
   }
 
   deleteCharFromName() {
-    this.username = this.username.slice(0, this.username.length-1)
+    globals.username = globals.username.slice(0, globals.username.length-1)
     this.bmd.cls()
-    this.bmd.context.fillText(this.username, 64, 128)
+    this.bmd.context.fillText(globals.username, 64, 128)
   }
 
   keyPress(char) {
-    this.username += char
+    globals.username += char
     this.bmd.cls()
-    this.bmd.context.fillText(this.username, 64, 128)
+    this.bmd.context.fillText(globals.username, 64, 128)
   }
 
   saveName() {
-    this.name = this.username
-    alert(`Saved your name as:${this.name}`)
-    socketEvent('saveName', this.name)
+    alert(`Saved your name as:${globals.username}`)
+    socketEvent('saveName', globals.username)
     this.bmd.cls()
     this.nameMsg.cls()
-    this.game.state.start('main')
+    this.game.state.start('game')
   }
 }
 
