@@ -14,17 +14,18 @@ module.exports = {
   module: {
     loaders: [
       {
-        test: /\.js/,
-        loaders: [
-          {
-            test: /.js/, 
-            exclude: /node_modules/, 
-            loaders: ['babel-loader?presets[]=react,presets[]=es2015,presets[]=stage-0']
-          }
-        ],
-        include: path.join(__dirname, 'src')
+        test: /\.js$/,
+        loader: 'babel-loader',
+        exclude: /node_modules/ 
       }
     ]
   },
-  resolve: ['node_modules']
+  include: [
+    path.resolve(__dirname, 'public/js')
+  ],
+  resolve: {
+    root: [
+      path.resolve('./public/js')
+    ]
+  }
 }
