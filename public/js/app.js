@@ -60,24 +60,6 @@ var mainState = {
     this.target.body.bounce.y = true;
     this.target.body.collideWorldBounds = true;
     this.setTargetPosition();
-
-    this.namesList = game.make.bitmapData(800, 600)
-    this.namesList.context.font = '16px Arial'
-    this.namesList.context.fillStyle = '#ffffff'
-    this.namesList.addToWorld()
-
-    this.nameMsg = game.make.bitmapData(800, 200)
-    this.nameMsg.context.font = '32px Arial'
-    this.nameMsg.context.fillStyle = '#ffffff'
-    this.nameMsg.context.fillText(constants.ENTER_NAME_MSG, 64, 64)
-    this.nameMsg.addToWorld()
-
-    this.bmd = game.make.bitmapData(800,200)
-    this.bmd.context.font = '64px Arial'
-    this.bmd.context.fillStyle = '#ffffff'
-    this.bmd.context.fillText(this.username, 64, 128)
-    this.bmd.addToWorld()
-
     game.input.keyboard.addCallbacks(this, null, null, this.keyPress)
   },
 
