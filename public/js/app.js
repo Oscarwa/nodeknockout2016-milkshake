@@ -1,29 +1,18 @@
 import hello from 'x'
 var socket = io();
-const socketEvent = (eventName, data) => {
-  socket.emit(eventName, data);
-}
+import renderNameInfo from 'UI'
 socket.on('shoot', function(data) {
   console.log(data);
   mainState.setTargetPosition(data.target);
 });
 
 socket.on('init', function(data) {
-  console.log(data);
   mainState.setTargetPosition(data);
-});
-
-socket.on('namesUpdated', (names) => {
-  console.log('Users List', names)
   mainState.showNames(names)
-})
 
 
 //Connect and sync game
 
-const constants = {
-  ENTER_NAME_MSG: 'Please enter your name'
-}
 
 var mainState = {
   username: '',
@@ -87,24 +76,6 @@ var mainState = {
     this.target.body.bounce.y = true;
     this.target.body.collideWorldBounds = true;
     //this.setTargetPosition();
-
-    this.namesList = game.make.bitmapData(800, 600)
-    this.namesList.context.font = '16px Arial'
-    this.namesList.context.fillStyle = '#ffffff'
-    this.namesList.addToWorld()
-
-    this.nameMsg = game.make.bitmapData(800, 200)
-    this.nameMsg.context.font = '32px Arial'
-    this.nameMsg.context.fillStyle = '#ffffff'
-    this.nameMsg.context.fillText(constants.ENTER_NAME_MSG, 64, 64)
-    this.nameMsg.addToWorld()
-
-    this.bmd = game.make.bitmapData(800,200)
-    this.bmd.context.font = '64px Arial'
-    this.bmd.context.fillStyle = '#ffffff'
-    this.bmd.context.fillText(this.username, 64, 128)
-    this.bmd.addToWorld()
-
     game.input.keyboard.addCallbacks(this, null, null, this.keyPress)
   },
 
@@ -131,5 +102,4 @@ var mainState = {
 
 var game = new Phaser.Game(800, 600, Phaser.AUTO, '');
 game.state.add('main', mainState);
-
 game.state.start('main');
