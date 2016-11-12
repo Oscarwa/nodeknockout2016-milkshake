@@ -1,8 +1,8 @@
 // socket.io events and handles
-var socket = io();
+const socket = io();
 const WORD = 'hello'
 
-var socketEvent = (eventName, data) => {
+const socketEvent = (eventName, data) => {
   socket.emit(eventName, data);
 }
 
@@ -16,7 +16,7 @@ const preload = () => {
 }
 
 const create = () => {
-  var target = game.add.sprite(100, 120, 'target');
+  const target = game.add.sprite(100, 120, 'target');
   target.anchor.set(0.5);
   target.scale.set(0.2);
   target.inputEnabled = true;
@@ -31,10 +31,10 @@ const create = () => {
   game.input.keyboard.addCallbacks(this, null, null, keyPress)
 }
 
-var keyPress = (char) => {
+const keyPress = (char) => {
 }
 
-var update = () => {
+const update = () => {
 
 }
 
@@ -43,8 +43,8 @@ const render = () => {
   //game.debug.pointer( game.input.activePointer );
 }
 
-var shoot = () => {
+const shoot = () => {
   socketEvent('shoot', {player: 'me'});
 };
 
-var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update, render: render });
+const game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update, render: render });
