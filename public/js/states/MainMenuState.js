@@ -15,13 +15,13 @@ class MainMenuState extends Phaser.State {
     enter.onDown.add(this.saveName, this)
 
     this.nameMsg = this.game.make.bitmapData(800, 200)
-    this.nameMsg.context.font = '32px Arial'
+    this.nameMsg.context.font = '32px Schoolbell'
     this.nameMsg.context.fillStyle = '#ffffff'
     this.nameMsg.context.fillText(constants.ENTER_NAME, 64, 64)
     this.nameMsg.addToWorld()
 
     this.bmd = this.game.make.bitmapData(800,200)
-    this.bmd.context.font = '64px Arial'
+    this.bmd.context.font = '64px Schoolbell'
     this.bmd.context.fillStyle = '#ffffff'
     this.bmd.context.fillText('', 64, 128)
     this.bmd.addToWorld()
