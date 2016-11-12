@@ -1,10 +1,8 @@
 import MainState from 'states/MainState'
 import { socketEvent } from 'utils/sockets'
 import globals from 'utils/globals'
+import constants from 'utils/constants'
 
-const constants = {
-  ENTER_NAME_MSG: 'Please enter your name'
-}
 
 class MainMenuState extends Phaser.State {
   create() {
@@ -24,13 +22,13 @@ class MainMenuState extends Phaser.State {
     this.nameMsg = this.game.make.bitmapData(800, 200)
     this.nameMsg.context.font = '32px Arial'
     this.nameMsg.context.fillStyle = '#ffffff'
-    this.nameMsg.context.fillText(constants.ENTER_NAME_MSG, 64, 64)
+    this.nameMsg.context.fillText(constants.ENTER_NAME, 64, 64)
     this.nameMsg.addToWorld()
 
     this.bmd = this.game.make.bitmapData(800,200)
     this.bmd.context.font = '64px Arial'
     this.bmd.context.fillStyle = '#ffffff'
-    this.bmd.context.fillText('me', 64, 128)
+    this.bmd.context.fillText('', 64, 128)
     this.bmd.addToWorld()
 
     this.game.input.keyboard.addCallbacks(this, null, null, this.keyPress)

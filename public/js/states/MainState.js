@@ -3,6 +3,7 @@ import globals from 'utils/globals'
 
 class MainState extends Phaser.State {
   create() {
+    //physics & setup
     this.game.stage.backgroundColor = '#3498DB';
     this.game.physics.startSystem(Phaser.Physics.Arcade);
     this.game.renderer.renderSession.roundPixels = true;
@@ -24,7 +25,7 @@ class MainState extends Phaser.State {
   }
 
   shoot() {
-    socketEvent('shoot', {player: globals.username});
+    socketEvent('shoot', {player: globals.username });
     this.setTargetPosition();
   }
 
