@@ -4,7 +4,7 @@ var webpack = require('webpack')
 module.exports = {
   devtool: 'eval',
   entry: [
-    './public/js/app'
+    './public/js/index'
   ],
   output: {
     path: path.join(__dirname, 'dist'),

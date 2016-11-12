@@ -1,6 +1,4 @@
-import hello from 'x'
 var socket = io();
-import renderNameInfo from 'UI'
 
 var mainState = {
   username: '',

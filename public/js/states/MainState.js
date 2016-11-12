@@ -1,4 +1,5 @@
 import { socketEvent } from 'utils/sockets'
+import globals from 'utils/globals'
 
 class MainState extends Phaser.State {
   create() {
@@ -23,7 +24,7 @@ class MainState extends Phaser.State {
   }
 
   shoot() {
-    socketEvent('shoot', {player: this.username});
+    socketEvent('shoot', {player: globals.username});
     this.setTargetPosition();
   }
 

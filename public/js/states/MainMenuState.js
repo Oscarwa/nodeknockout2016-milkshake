@@ -1,5 +1,6 @@
 import MainState from 'states/MainState'
 import { socketEvent } from 'utils/sockets'
+import globals from 'utils/globals'
 
 const constants = {
   ENTER_NAME_MSG: 'Please enter your name'
@@ -7,7 +8,7 @@ const constants = {
 
 class MainMenuState extends Phaser.State {
   create() {
-    this.username = ''
+    globals.username = ''
 
     const backspace = this.game.input.keyboard.addKey(Phaser.KeyCode.BACKSPACE)
     backspace.onDown.add(this.deleteCharFromName, this)
@@ -38,21 +39,20 @@ class MainMenuState extends Phaser.State {
   }
 
   deleteCharFromName() {
-    this.username = this.username.slice(0, this.username.length-1)
+    globals.username = globals.username.slice(0, globals.username.length-1)
     this.bmd.cls()
-    this.bmd.context.fillText(this.username, 64, 128)
+    this.bmd.context.fillText(globals.username, 64, 128)
   }
 
   keyPress(char) {
-    this.username += char
+    globals.username += char
     this.bmd.cls()
-    this.bmd.context.fillText(this.username, 64, 128)
+    this.bmd.context.fillText(globals.username, 64, 128)
   }
 
   saveName() {
-    this.name = this.username
-    alert(`Saved your name as:${this.name}`)
-    socketEvent('saveName', this.name)
+    alert(`Saved your name as:${globals.username}`)
+    socketEvent('saveName', globals.username)
     this.bmd.cls()
     this.nameMsg.cls()
     this.game.state.start('main')
