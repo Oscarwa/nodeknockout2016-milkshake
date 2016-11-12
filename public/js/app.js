@@ -1,5 +1,4 @@
 import hello from 'x'
-<<<<<<< 8f6465b48e3071f52d9c9b5e6293948aff247797
 var socket = io();
 import renderNameInfo from 'UI'
 
