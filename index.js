@@ -52,7 +52,6 @@ app.io.on('connection', function(socket) {
   });
 
   socket.on('shoot', function(data) {
-    //console.info(data);
     currentTarget = initTarget()
     app.io.emit('shoot', {data: data, target: currentTarget});
   });
@@ -69,11 +68,9 @@ app.io.on('connection', function(socket) {
   })
 
   socket.on('disconnect', function(data) {
-    console.log(users.length)
     users = _.filter(users, function(user){
       return user.id !== socket.id
     })
-    console.log(users.length)
     socket.broadcast.emit('namesUpdated', users)
   })
 
