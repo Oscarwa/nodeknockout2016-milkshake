@@ -1,4 +1,4 @@
-import { sendTargetData, sendShootData, socketListen } from 'utils/sockets'
+import { socketEvent, sendTargetData, sendShootData, socketListen } from 'utils/sockets'
 import globals from 'utils/globals'
 
 class GameState extends Phaser.State {
@@ -53,5 +53,6 @@ class GameState extends Phaser.State {
       this.setTargetPosition(data.target);
     });
   }
+}
 
 export default GameState
