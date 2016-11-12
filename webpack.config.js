@@ -12,10 +12,19 @@ module.exports = {
     publicPath: '/static/'
   },
   module: {
-    loaders: [{
-      test: /\.js/,
-      loaders: ['babel'],
-      include: path.join(__dirname, 'src')
-    }]
-  }
+    loaders: [
+      {
+        test: /\.js/,
+        loaders: [
+          {
+            test: /.js/, 
+            exclude: /node_modules/, 
+            loaders: ['babel-loader?presets[]=react,presets[]=es2015,presets[]=stage-0']
+          }
+        ],
+        include: path.join(__dirname, 'src')
+      }
+    ]
+  },
+  resolve: ['node_modules']
 }
