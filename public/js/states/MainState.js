@@ -1,4 +1,4 @@
-import { socketEvent } from 'utils/sockets'
+import { sendTargetData, sendShootData } from 'utils/sockets'
 import globals from 'utils/globals'
 
 class MainState extends Phaser.State {
@@ -25,14 +25,23 @@ class MainState extends Phaser.State {
   }
 
   shoot() {
-    socketEvent('shoot', {player: globals.username });
+    sendShootData({ player: globals.username });
     this.setTargetPosition();
   }
 
   setTargetPosition() {
-    this.target.reset(800 * Math.random(), 600 * Math.random());
-    this.target.body.velocity.x = 600 * Math.random();
-    this.target.body.velocity.y = 600 * Math.random();
+    const newTarget = {
+      x: 800 * Math.random(),
+      y: 600 * Math.random(),
+      velocity: {
+        x: 600 * Math.random(),
+        y: 600 * Math.random()
+      }
+    }
+    sendTargetData(newTarget)
+    this.target.reset(newTarget.x, newTarget.y);
+    this.target.body.velocity.x = newTarget.velocity.x;
+    this.target.body.velocity.y = newTarget.velocity.y;
   }
 
   preload() {
