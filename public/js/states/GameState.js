@@ -1,6 +1,5 @@
 import { socketEvent, sendTargetData, sendShootData, socketListen } from 'utils/sockets'
 import globals from 'utils/globals'
-import fetch from 'isomorphic-fetch'
 
 class GameState extends Phaser.State {
 
@@ -21,20 +20,18 @@ class GameState extends Phaser.State {
     this.target.scale.set(0.15);
 
     //users list
-    this.namesList = this.game.make.bitmapData(800, 600)
-    this.namesList.context.font = 'Schoolbell'
-    this.namesList.context.fillStyle = '#000000'
-    this.namesList.addToWorld()
+    this.namesList = this.game.add.text(700, 50, 'testing text', {
+      font: '22px Schoolbell',
+      fill: '#000000'
+    })
+    // this.namesList = this.game.make.bitmapData(800, 600)
+    // this.namesList.context.font = '22px Asul'
+    // this.namesList.context.lineSpacing = 20
+    // this.namesList.context.fillStyle = '#ffffff'
+    // this.namesList.addToWorld()
+
 
     socketListen('namesUpdated', this.updateList)
-
-    fetch('/users/list')
-      .then((res) => {
-        return res.text()
-      })
-      .then(function(users){
-        this.updateList(JSON.parse(users))
-      }.bind(this))
 
     //target physics
     this.game.physics.arcade.enable(this.target);
@@ -111,9 +108,9 @@ class GameState extends Phaser.State {
   }
 
   updateList = (names) => {
-    this.namesList.cls()
-    const usersList = names.reduce((prev, next) =>`${prev} ${next.name}`, 'Users:')
-    this.namesList.context.fillText(usersList, 64, 300)
+    const usersList = names.reduce((prev, next) =>`${prev}${next.name}  ${50}\n`, 'Users:\n')
+    debugger
+    this.namesList.setText(usersList)
   }
 
   setTargetPosition(data) {
@@ -136,7 +133,8 @@ class GameState extends Phaser.State {
     socketEvent('init');
 
     socketListen('init', (data) => {
-      this.setTargetPosition(data);
+      this.setTargetPosition(data.target);
+      this.updateList(data.users)
     });
 
     socketListen('shoot', (data) => {

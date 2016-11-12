@@ -44,7 +44,6 @@ class MainMenuState extends Phaser.State {
   }
 
   saveName() {
-    alert(`Saved your name as:${globals.username}`)
     sendName(globals.username)
     this.bmd.cls()
     this.nameMsg.cls()
