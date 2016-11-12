@@ -17,7 +17,7 @@ app.io = socket_io(server);
 app.io.on('connection', function(socket) {
   console.log('User connected');
 
-  socket.on('online', function(data) {
-    console.log(data);
+  socket.on('shoot', function(data) {
+    socket.broadcast.emit('targetShoot', data);
   });
 });

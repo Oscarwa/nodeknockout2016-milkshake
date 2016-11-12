@@ -44,19 +44,13 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	eval("__webpack_require__(1);\nmodule.exports = __webpack_require__(2);\n\n\n//////////////////\n// WEBPACK FOOTER\n// multi main\n// module id = 0\n// module chunks = 0\n//# sourceURL=webpack:///multi_main?");
+	eval("module.exports = __webpack_require__(1);\n\n\n//////////////////\n// WEBPACK FOOTER\n// multi main\n// module id = 0\n// module chunks = 0\n//# sourceURL=webpack:///multi_main?");
 
 /***/ },
 /* 1 */
 /***/ function(module, exports) {
 
-	eval("\nconst preload = () => {\n  game.load.image('target', 'img/target.png');\n}\n\nconst create = () => {\n  var target1 = game.add.sprite(100, 120, 'target');\n  target1.anchor.set(0.5);\n  target1.scale.set(0.2);\n}\n\nconst update = () => {\n}\n\nvar game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });\n\n//////////////////\n// WEBPACK FOOTER\n// ./public/js/app.js\n// module id = 1\n// module chunks = 0\n//# sourceURL=webpack:///./public/js/app.js?");
-
-/***/ },
-/* 2 */
-/***/ function(module, exports) {
-
-	eval("var socket = io();\n\nsocket.emit('online', {online:true});\n\n\n//////////////////\n// WEBPACK FOOTER\n// ./public/js/rt.js\n// module id = 2\n// module chunks = 0\n//# sourceURL=webpack:///./public/js/rt.js?");
+	eval("// socket.io events and handles\nvar socket = io();\n\nvar socketEvent = (eventName, data) => {\n  socket.emit(eventName, data);\n}\n\nsocket.on('targetShoot', (data) => {\n  console.log(data);\n});\n\n// Phaser io events and handles\nconst preload = () => {\n  game.load.image('target', 'img/target.png');\n}\n\nconst create = () => {\n  var target = game.add.sprite(100, 120, 'target');\n  target.anchor.set(0.5);\n  target.scale.set(0.2);\n  target.inputEnabled = true;\n  target.events.onInputDown.add(shoot, this);\n}\n\nconst update = () => {\n}\n\nconst render = () => {\n  //console.info(game.input.activePointer);\n  //game.debug.pointer( game.input.activePointer );\n}\n\nvar shoot = () => {\n  socketEvent('shoot', {player: 'me'});\n};\n\nvar game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update, render: render });\n\n\n//////////////////\n// WEBPACK FOOTER\n// ./public/js/app.js\n// module id = 1\n// module chunks = 0\n//# sourceURL=webpack:///./public/js/app.js?");
 
 /***/ }
 /******/ ]);
