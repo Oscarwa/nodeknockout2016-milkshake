@@ -1,5 +1,6 @@
 import { socketEvent, sendTargetData, sendShootData, socketListen } from 'utils/sockets'
 import globals from 'utils/globals'
+import fetch from 'isomorphic-fetch'
 
 class GameState extends Phaser.State {
 
@@ -24,6 +25,14 @@ class GameState extends Phaser.State {
     this.namesList.addToWorld()
 
     socketListen('namesUpdated', this.updateList)
+
+    fetch('/users/list')
+      .then((res) => {
+        return res.text()
+      })
+      .then(function(users){
+        this.updateList(JSON.parse(users))
+      }.bind(this))
 
     //target physics
     this.game.physics.arcade.enable(this.target);
@@ -59,7 +68,6 @@ class GameState extends Phaser.State {
   }
 
   updateList = (names) => {
-    console.log('UPDATING LIST')
     this.namesList.cls()
     const usersList = names.reduce((prev, next) =>`${prev} ${next.name}`, 'Users:')
     this.namesList.context.fillText(usersList, 64, 300)
@@ -85,7 +93,6 @@ class GameState extends Phaser.State {
     });
 
     socketListen('shoot', (data) => {
-      //console.log(data);
       this.setTargetPosition(data.target);
     });
   }

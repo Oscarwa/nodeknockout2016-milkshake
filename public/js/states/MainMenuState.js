@@ -1,5 +1,5 @@
 import GameState from 'states/GameState'
-import { socketEvent } from 'utils/sockets'
+import { sendName } from 'utils/sockets'
 import globals from 'utils/globals'
 import constants from 'utils/constants'
 
@@ -45,7 +45,7 @@ class MainMenuState extends Phaser.State {
 
   saveName() {
     alert(`Saved your name as:${globals.username}`)
-    socketEvent('saveName', globals.username)
+    sendName(globals.username)
     this.bmd.cls()
     this.nameMsg.cls()
     this.game.state.start('game')
