@@ -2,7 +2,6 @@ var express = require('express')
 var socket_io = require('socket.io');
 var app = express()
 var _ = require('lodash')
-var helpers = require('./utils/helpers')
 
 var UI = require('./UI')
 var target = require('./target')
@@ -17,7 +16,7 @@ var server = app.listen(app.get('port'), function() {
 app.io = socket_io(server);
 
 // socket io events
-var currentTarget = helpers.initTarget();
+var currentTarget = target.initTarget();
 
 app.io.on('connection', function(socket) {
 
@@ -30,7 +29,5 @@ app.io.on('connection', function(socket) {
 
   UI.UISocketHandlers(socket, app.io)
   target.targetHandlers(socket, app.io)
-
-
 
 });
