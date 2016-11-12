@@ -6,15 +6,12 @@ class MainState extends Phaser.State {
     this.game.physics.startSystem(Phaser.Physics.Arcade);
     this.game.renderer.renderSession.roundPixels = true;
 
-    // const backspace = this.game.input.keyboard.addKey(Phaser.KeyCode.BACKSPACE)
-    // backspace.onDown.add(deleteCharFromName, this)
-
-    // const enter = this.game.input.keyboard.addKey(Phaser.KeyCode.ENTER)
-    // enter.onDown.add(saveName, this)
-
+    //render target
     this.target = this.game.add.sprite(100, 120, 'target');
     this.target.anchor.set(0.5);
     this.target.scale.set(0.2);
+
+    //target physics
     this.game.physics.arcade.enable(this.target);
     this.target.inputEnabled = true;
     this.target.events.onInputDown.add(this.shoot, this);
@@ -23,8 +20,6 @@ class MainState extends Phaser.State {
     this.target.body.bounce.y = true;
     this.target.body.collideWorldBounds = true;
     this.setTargetPosition();
-
-    // this.game.input.keyboard.addCallbacks(this, null, null, keyPress)
   }
 
   shoot() {
