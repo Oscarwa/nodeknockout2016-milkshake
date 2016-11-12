@@ -12,6 +12,10 @@ export const sendTargetData = (data) => {
   socketEvent('targetClicked', data)
 }
 
+export const sendName = (data) => {
+  socketEvent('nameChanged', data)
+}
+
 export const socketListen = (eventName, callback) => {
   socket.on(eventName, callback);
 }
