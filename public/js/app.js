@@ -1,3 +1,5 @@
+import hello from 'x'
+
 const constants = {
   ENTER_NAME_MSG: 'Please enter your name'
 }
@@ -14,6 +16,40 @@ const socketEvent = (eventName, data) => {
 socket.on('shoot', (data) => {
   console.log(data);
 });
+
+socket.on('namesUpdated', (names) => {
+  console.log('Users List', names)
+  game.showNames(names)
+})
+
+//Helper functions
+const keyPress = (char) => {
+  username+=char
+  this.bmd.cls()
+  this.bmd.context.fillText(username, 64, 128)
+}
+
+const deleteCharFromName = () => {
+  username = username.slice(0, username.length-1)
+  this.bmd.cls()
+  this.bmd.context.fillText(username, 64, 128)
+}
+
+const saveName = () => {
+  this.name = username
+  alert(`Saved your name as:${this.name}`)
+  socketEvent('saveName', this.name)
+  this.bmd.cls()
+  this.nameMsg.cls()
+}
+
+const showNames = (names) => {
+
+}
+
+const shoot = () => {
+  socketEvent('shoot', {player: 'me'});
+};
 
 // Phaser io events and handles
 function createTarget() {
@@ -64,7 +100,12 @@ const create = () => {
   target.body.velocity.y = 600 * Math.random();
   target.body.collideWorldBounds = true;
 
-  this.nameMsg = game.make.bitmapData(800,200)
+  this.namesList = game.make.bitmapData(800, 600)
+  this.namesList.context.font = '16px Arial'
+  this.namesList.context.fillStyle = '#ffffff'
+  this.namesList.addToWorld()
+
+  this.nameMsg = game.make.bitmapData(800, 200)
   this.nameMsg.context.font = '32px Arial'
   this.nameMsg.context.fillStyle = '#ffffff'
   this.nameMsg.context.fillText(constants.ENTER_NAME_MSG, 64, 64)
@@ -77,24 +118,6 @@ const create = () => {
   this.bmd.addToWorld()
 
   game.input.keyboard.addCallbacks(this, null, null, keyPress)
-}
-
-const keyPress = (char) => {
-  username+=char
-  this.bmd.cls()
-  this.bmd.context.fillText(username, 64, 128)
-}
-const deleteCharFromName = () => {
-  username = username.slice(0, username.length-1)
-  this.bmd.cls()
-  this.bmd.context.fillText(username, 64, 128)
-}
-
-const saveName = () => {
-  this.name = username
-  alert(`Saved your name as:${this.name}`)
-  this.bmd.cls()
-  this.nameMsg.cls()
 }
 
 const update = () => {
