@@ -1,7 +1,8 @@
 // socket.io events and handles
-var socket = io();
+const socket = io();
+let USERNAME = ''
 
-var socketEvent = (eventName, data) => {
+const socketEvent = (eventName, data) => {
   socket.emit(eventName, data);
 }
 
@@ -15,14 +16,29 @@ const preload = () => {
 }
 
 const create = () => {
-  var target = game.add.sprite(100, 120, 'target');
+  const target = game.add.sprite(100, 120, 'target');
   target.anchor.set(0.5);
   target.scale.set(0.2);
   target.inputEnabled = true;
   target.events.onInputDown.add(shoot, this);
+
+  this.bmd = game.make.bitmapData(800, 200)
+  this.bmd.context.font = '64px Arial'
+  this.bmd.context.fillStyle = '#ffffff'
+  this.bmd.context.fillText(USERNAME, 64, 64)
+  this.bmd.addToWorld()
+
+  game.input.keyboard.addCallbacks(this, null, null, keyPress)
+}
+
+const keyPress = (char) => {
+  USERNAME+=char
+  this.bmd.cls()
+  this.bmd.context.fillText(USERNAME, 64, 64)
 }
 
 const update = () => {
+
 }
 
 const render = () => {
@@ -30,8 +46,8 @@ const render = () => {
   //game.debug.pointer( game.input.activePointer );
 }
 
-var shoot = () => {
+const shoot = () => {
   socketEvent('shoot', {player: 'me'});
 };
 
-var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update, render: render });
+const game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update, render: render });
