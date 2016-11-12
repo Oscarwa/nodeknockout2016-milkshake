@@ -3,7 +3,7 @@ var socket_io = require('socket.io');
 var app = express()
 
 app.set('port', (process.env.PORT || 5000))
-app.use(express.static(__dirname + '/public'))
+app.use(express.static(__dirname + '/dist'))
 
 
 
@@ -16,4 +16,8 @@ app.io = socket_io(server);
 // socket io events
 app.io.on('connection', function(socket) {
   console.log('User connected');
+
+  socket.on('online', function(data) {
+    console.log(data);
+  });
 });
