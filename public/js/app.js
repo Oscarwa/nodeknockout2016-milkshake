@@ -15,8 +15,6 @@ const constants = {
   ENTER_NAME_MSG: 'Please enter your name'
 }
 
-
-
 var mainState = {
   username: '',
   //Helper functions
