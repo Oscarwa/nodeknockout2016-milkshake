@@ -1,6 +1,6 @@
 // socket.io events and handles
 const socket = io();
-const WORD = 'hello'
+let USERNAME = ''
 
 const socketEvent = (eventName, data) => {
   socket.emit(eventName, data);
@@ -22,16 +22,19 @@ const create = () => {
   target.inputEnabled = true;
   target.events.onInputDown.add(shoot, this);
 
-  const bmd = game.make.bitmapData(800, 200)
-  bmd.context.font = '64px Arial'
-  bmd.context.fillStyle = '#ffffff'
-  bmd.context.fillText(WORD, 64, 64)
-  bmd.addToWorld()
+  this.bmd = game.make.bitmapData(800, 200)
+  this.bmd.context.font = '64px Arial'
+  this.bmd.context.fillStyle = '#ffffff'
+  this.bmd.context.fillText(USERNAME, 64, 64)
+  this.bmd.addToWorld()
 
   game.input.keyboard.addCallbacks(this, null, null, keyPress)
 }
 
 const keyPress = (char) => {
+  USERNAME+=char
+  this.bmd.cls()
+  this.bmd.context.fillText(USERNAME, 64, 64)
 }
 
 const update = () => {
