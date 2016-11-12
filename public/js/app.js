@@ -21,15 +21,25 @@ const preload = () => {
 
 const create = () => {
   const target = game.add.sprite(100, 120, 'target');
+
+  const backspace = game.input.keyboard.addKey(Phaser.KeyCode.BACKSPACE)
+  backspace.onDown.add(deleteCharFromName, this)
+
   target.anchor.set(0.5);
   target.scale.set(0.2);
   target.inputEnabled = true;
   target.events.onInputDown.add(shoot, this);
 
-  this.bmd = game.make.bitmapData(800, 200)
+  this.nameMsg = game.make.bitmapData(800,200)
+  this.nameMsg.context.font = '32px Arial'
+  this.nameMsg.context.fillStyle = '#ffffff'
+  this.nameMsg.context.fillText(constants.ENTER_NAME_MSG, 64, 64)
+  this.nameMsg.addToWorld()
+
+  this.bmd = game.make.bitmapData(800,200)
   this.bmd.context.font = '64px Arial'
   this.bmd.context.fillStyle = '#ffffff'
-  this.bmd.context.fillText(USERNAME, 64, 64)
+  this.bmd.context.fillText(USERNAME, 64, 128)
   this.bmd.addToWorld()
 
   game.input.keyboard.addCallbacks(this, null, null, keyPress)
@@ -38,7 +48,12 @@ const create = () => {
 const keyPress = (char) => {
   USERNAME+=char
   this.bmd.cls()
-  this.bmd.context.fillText(USERNAME, 64, 64)
+  this.bmd.context.fillText(USERNAME, 64, 128)
+}
+const deleteCharFromName = () => {
+  USERNAME = USERNAME.slice(0, USERNAME.length-1)
+  this.bmd.cls()
+  this.bmd.context.fillText(USERNAME, 64, 128)
 }
 
 const update = () => {
