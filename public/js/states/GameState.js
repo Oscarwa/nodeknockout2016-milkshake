@@ -5,7 +5,10 @@ class GameState extends Phaser.State {
 
   create() {
     //physics & setup
-    this.game.stage.backgroundColor = '#3498DB';
+    //this.game.stage.backgroundColor = '#3498DB';
+    var bg = this.game.add.image(this.game.world.centerX, this.game.world.centerY, 'bg');
+    bg.scale.set(0.4);
+    bg.anchor.set(0.5);
     this.game.physics.startSystem(Phaser.Physics.Arcade);
     this.game.renderer.renderSession.roundPixels = true;
 
@@ -26,8 +29,25 @@ class GameState extends Phaser.State {
     this.initTarget()
   }
 
-  shoot() {
+  shoot(pointer) {
     sendShootData({ player: globals.username });
+    this.emitter = this.game.add.emitter(this.game.world.centerX, 200);
+
+    this.emitter.makeParticles('broken_target');
+
+    // this.emitter.setXSpeed(-200, 200);
+    // this.emitter.setYSpeed(-150, -250);
+
+    this.emitter.bringToTop = true;
+    //this.emitter.setAlpha(0.1, 1, 500);
+    this.emitter.minParticleScale = 0.2;
+    this.emitter.maxParticleScale = 0.2;
+    //this.emitter.setScale(-2, 2, 1, 1, 3000, Phaser.Easing.Sinusoidal.InOut, true);
+    this.emitter.gravity = 1000;
+    this.emitter.x = pointer.x;
+    this.emitter.y = pointer.y;
+
+    this.emitter.start(true, 2000, null, 5);
     //this.setTargetPosition();
   }
 
@@ -39,6 +59,8 @@ class GameState extends Phaser.State {
 
   preload() {
     this.game.load.image('target', 'img/target.png');
+    this.game.load.image('broken_target', 'img/broken_target.png');
+    this.game.load.image('bg', 'img/bg.jpg');
   }
 
   initTarget() {
