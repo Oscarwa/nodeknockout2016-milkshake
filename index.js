@@ -15,9 +15,10 @@ app.io = socket_io(server);
 
 // socket io events
 app.io.on('connection', function(socket) {
-  console.log('User connected');
+  //console.log('User connected');
 
   socket.on('shoot', function(data) {
-    socket.broadcast.emit('targetShoot', data);
+    console.info(data);
+    socket.emit('shoot', data);
   });
 });

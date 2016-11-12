@@ -5,7 +5,7 @@ var socketEvent = (eventName, data) => {
   socket.emit(eventName, data);
 }
 
-socket.on('targetShoot', (data) => {
+socket.on('shoot', (data) => {
   console.log(data);
 });
 
