@@ -24,7 +24,7 @@ function targetHandlers(socket, io){
     })
     if(currentUser) currentUser.points+=50
     currentTarget = initTarget()
-    io.emit('namesUpdated', UI.getUsers())
+    io.emit('pointsUpdated', UI.getUsers())
     io.emit('shoot', {data: data, target: currentTarget});
   });
 }

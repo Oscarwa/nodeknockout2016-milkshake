@@ -1,6 +1,9 @@
 import { socketEvent, sendTargetData, sendShootData, socketListen } from 'utils/sockets'
 import globals from 'utils/globals'
 import constants from 'utils/constants'
+import NamesList from 'objects/NamesList'
+
+import GameOverState from 'states/GameOverState'
 
 class GameState extends Phaser.State {
 
@@ -36,12 +39,6 @@ class GameState extends Phaser.State {
     this.target = this.game.add.sprite(100, 120, 'target');
     this.target.anchor.set(0.5);
     this.target.scale.set(0.15);
-
-    //users list
-    this.namesList = this.game.add.text(850, 40, '', {
-      font: '26px Schoolbell',
-      fill: '#ffffff'
-    })
     this.nameBanner = this.game.add.text(30, 15, constants.GAME_WELCOME_MESSAGE+constants.GAME_NAME, {
       font: '26px Schoolbell',
       fill: '#ffffff'
@@ -53,7 +50,8 @@ class GameState extends Phaser.State {
 
 
 
-    socketListen('namesUpdated', this.updateList)
+    //socketListen('namesUpdated', this.updateList)
+    this.namesList = new NamesList(this.game, 700, 50, '')
 
     //target physics
     this.game.physics.arcade.enable(this.target);
@@ -65,6 +63,28 @@ class GameState extends Phaser.State {
     this.target.body.collideWorldBounds = true;
     //this.setTargetPosition();
     this.initTarget()
+
+    this.counter = 9
+    this.timer = this.game.add.text(680, 560, `Time Remaining: ${this.counter}`, {
+      font: '26px Schoolbell',
+      fill: '#000'
+    })
+    this.game.time.events.loop(Phaser.Timer.SECOND, this.updateTimeCounter, this)
+
+    this.game.state.add('gameover', GameOverState)
+  }
+
+  updateTimeCounter() {
+    this.counter--
+    this.timer.setText(`Time Remaining: ${this.counter}`)
+    if(this.counter === 0) {
+      this.finishGame()
+    }
+  }
+
+  finishGame() {
+    this.BGM.stop()
+    this.game.state.start('gameover')
   }
 
   gotBonus() {
@@ -98,7 +118,7 @@ class GameState extends Phaser.State {
   }
 
   updateList = (names) => {
-    const usersList = names.reduce((prev, next) =>`${prev}${next.name}  ${next.points}\n`, 'Users:\n')
+    const usersList = names.reduce((prev, next) =>`${prev}${next.name}  ${next.points}\n`, '')
     this.namesList.setText(usersList)
   }
 
@@ -174,10 +194,10 @@ class GameState extends Phaser.State {
         this.target.loadTexture('target');
       }
       this.canShootBonus = data.target.bonus;
-
-
       this.setTargetPosition(data.target);
     });
+
+    socketListen('bonus')
   }
 }
 

@@ -1,8 +1,8 @@
+import LobbyState from 'states/LobbyState'
 import GameState from 'states/GameState'
-import { sendName } from 'utils/sockets'
+import { socketEvent, sendName, socketListen } from 'utils/sockets'
 import globals from 'utils/globals'
 import constants from 'utils/constants'
-
 
 class MainMenuState extends Phaser.State {
   create() {
@@ -15,7 +15,7 @@ class MainMenuState extends Phaser.State {
     backspace.onDown.add(this.deleteCharFromName, this)
 
     const enter = this.game.input.keyboard.addKey(Phaser.KeyCode.ENTER)
-    enter.onDown.add(this.saveName, this)
+    enter.onDown.add(this.onEnter, this)
 
     // GAME NAME TEXT
     this.gameName = this.game.make.bitmapData(800)
@@ -45,8 +45,13 @@ class MainMenuState extends Phaser.State {
     this.bmd.context.fillText('', 100, 320)
     this.bmd.addToWorld()
 
+    //Ready button
+    this.button = this.game.add.button(this.game.world.centerX + 200, 280, 'button', this.onGo, this, 2, 1, 0)
+    this.button.visible = false;
+
     this.game.input.keyboard.addCallbacks(this, null, null, this.keyPress)
 
+    // this.game.state.add('lobby', LobbyState);
     this.game.state.add('game', GameState);
   }
 
@@ -55,22 +60,22 @@ class MainMenuState extends Phaser.State {
     this.bmd.cls()
     this.bmd.context.fillText(globals.username, 100, 320)
   }
-
+  
   keyPress(char) {
     globals.username += char
     this.bmd.cls()
     this.bmd.context.fillText(globals.username, 100, 320)
   }
 
-  saveName() {
+  onEnter() {
     sendName(globals.username)
-    this.bmd.cls()
-    this.nameMsg.cls()
     this.game.state.start('game')
   }
 
   preload() {
     this.game.load.image('splashMenu', 'img/splash.png');
+    this.game.load.image('button', 'img/ready-btn.png');
+    this.game.load.spritesheet('button', 'img/go-btn.png', 149, 75)
   }
 }
 
