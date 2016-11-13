@@ -89,6 +89,7 @@ class GameState extends Phaser.State {
 
   finishGame = () => {
     this.BGM.stop()
+    this.target.destroy(true)
     this.game.state.start('gameover')
   }
 
@@ -147,7 +148,6 @@ class GameState extends Phaser.State {
   update() {
     if (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
       if(!!this.item && this.item.canUse) {
-        console.info('bonus used');
         this.fx.play('item')
         socketEvent('bonus', this.item.type)
         this.item.canUse = false;

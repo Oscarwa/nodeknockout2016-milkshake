@@ -1,3 +1,5 @@
+import MainMenuState from 'states/MainMenuState'
+
 class GameOverState extends Phaser.State {
   create() {
     const center = {
@@ -12,9 +14,18 @@ class GameOverState extends Phaser.State {
       font: '50px Schoolbell',
       fill: '#fff'
     })
+    this.restart.inputEnabled = true;
+    this.restart.input.enableDrag();
+    this.restart.events.onInputDown.add(this.onRestart, this)
     this.gameoverMsg.anchor.setTo(0.5, 0.5)
     this.restart.anchor.setTo(0.5, 0.5)
+    this.game.state.add('mainMenu', MainMenuState)
   }
+
+  onRestart = () => {
+    this.game.state.start('mainMenu')
+  }
+
 }
 
 export default GameOverState
