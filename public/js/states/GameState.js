@@ -132,18 +132,20 @@ class GameState extends Phaser.State {
 
   setTargetPosition(data) {
     this.target.reset(data.startPosition.x, data.startPosition.y);
-    this.target.body.velocity.x = data.velocity.x;
-    this.target.body.velocity.y = data.velocity.y;
+    if(!!this.target.body) {
+      this.target.body.velocity.x = data.velocity.x;
+      this.target.body.velocity.y = data.velocity.y;
 
-    this.slowTimer--;
-    this.lightingTimer--;
-    if(this.slowTimer > 0) {
-      this.target.body.velocity.x /= 2;
-      this.target.body.velocity.y /= 2;
-    }
-    if(this.lightingTimer > 0) {
-      this.target.body.velocity.x *= 2;
-      this.target.body.velocity.y *= 2;
+      this.slowTimer--;
+      this.lightingTimer--;
+      if(this.slowTimer > 0) {
+        this.target.body.velocity.x /= 2;
+        this.target.body.velocity.y /= 2;
+      }
+      if(this.lightingTimer > 0) {
+        this.target.body.velocity.x *= 2;
+        this.target.body.velocity.y *= 2;
+      }
     }
   }
 

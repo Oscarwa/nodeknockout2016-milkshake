@@ -23,7 +23,8 @@ class GameOverState extends Phaser.State {
   }
 
   onRestart = () => {
-    this.game.state.start('mainMenu')
+    this.game.state.start('lobby')
+    location.reload();
   }
 
 }
