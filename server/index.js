@@ -23,11 +23,13 @@ app.io.on('connection', function(socket) {
   socket.on('init', function(data) {
     socket.emit('init', {
       target: currentTarget,
-      users: UI.users
+      users: UI.getUsers()
     })
   });
 
   UI.UISocketHandlers(socket, app.io)
   target.targetHandlers(socket, app.io)
+  console.log('users connected now', UI.getUsers().length)
+  console.log(UI.getUsers())
 
 });

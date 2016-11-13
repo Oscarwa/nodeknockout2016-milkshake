@@ -11,6 +11,7 @@ class GameState extends Phaser.State {
     this.game.physics.startSystem(Phaser.Physics.Arcade);
     this.game.renderer.renderSession.roundPixels = true;
     this.hitSound = this.game.add.audio('hit');
+    this.hit2Sound = this.game.add.audio('hit2');
     this.BGM = this.game.add.audio('bgm');
     this.BGM.loopFull();
 
@@ -21,7 +22,7 @@ class GameState extends Phaser.State {
 
     //users list
     this.namesList = this.game.add.text(10, 48, 'testing text', {
-      font: '22px Schoolbell',
+      font: '26px Schoolbell',
       fill: '#000000'
     })
 
@@ -56,7 +57,7 @@ class GameState extends Phaser.State {
   }
 
   updateList = (names) => {
-    const usersList = names.reduce((prev, next) =>`${prev}${next.name}  ${50}\n`, 'Users:\n')
+    const usersList = names.reduce((prev, next) =>`${prev}${next.name}  ${next.points}\n`, 'Users:\n')
     this.namesList.setText(usersList)
   }
 
@@ -73,6 +74,8 @@ class GameState extends Phaser.State {
     this.game.load.image('bg', 'img/bg.jpg');
     this.game.load.audio('bgm', 'sound/bgm.mp3');
     this.game.load.audio('hit', 'sound/crash.ogg');
+    this.game.load.audio('hit2', 'sound/blop.mp3');
+
     this.game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js');
   }
 
@@ -86,6 +89,7 @@ class GameState extends Phaser.State {
 
     socketListen('shoot', (data) => {
       if(globals.username !== data.data.player) {
+        this.hit2Sound.play();
         this.emitter = this.game.add.emitter(this.game.world.centerX, 200);
         this.emitter.makeParticles('broken_target_enemy');
         this.emitter.bringToTop = true;

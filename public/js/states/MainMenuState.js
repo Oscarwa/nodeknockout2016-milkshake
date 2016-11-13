@@ -25,6 +25,7 @@ class MainMenuState extends Phaser.State {
     this.gameName.context.fillStyle = '#ffffff'
     this.gameName.context.fillText(constants.GAME_NAME, 320, 80)
     this.gameName.addToWorld()
+    
     // GAME SUBTITLE TEXT
     this.gameName = this.game.make.bitmapData(800)
     this.gameName.context.font = '30px Asul'
@@ -33,7 +34,7 @@ class MainMenuState extends Phaser.State {
     this.gameName.addToWorld()
 
     // ENTER NAME TEXT
-    this.nameMsg = this.game.make.bitmapData(800)
+    this.nameMsg = this.game.make.bitmapData(800, 500)
     this.nameMsg.context.font = '32px Asul'
     this.nameMsg.context.fillStyle = '#ffffff'
     this.nameMsg.context.fillText(constants.ENTER_NAME, 90, 220)
