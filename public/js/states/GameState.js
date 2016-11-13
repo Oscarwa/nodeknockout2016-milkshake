@@ -53,8 +53,6 @@ class GameState extends Phaser.State {
       fill: '#ffffff'
     })
 
-
-
     //socketListen('namesUpdated', this.updateList)
     this.namesList = new NamesList(this.game, 700, 50, '')
 
@@ -69,11 +67,14 @@ class GameState extends Phaser.State {
     //this.setTargetPosition();
     this.initTarget()
 
-    this.counter = 90
+    this.counter = 160
     this.timer = this.game.add.text(680, 560, `Time Remaining: ${this.counter}`, {
       font: '26px Schoolbell',
       fill: '#000'
     })
+
+    this.item = {};
+
     this.game.time.events.loop(Phaser.Timer.SECOND, this.updateTimeCounter, this)
     socketListen('gameOver', this.finishGame)
     this.game.state.add('gameover', GameOverState)
@@ -122,7 +123,7 @@ class GameState extends Phaser.State {
     this.emitter.start(true, 2000, null, 5);
 
     //bonus
-    if (this.isBonusTarget) {
+    if (this.isBonusTarget && !this.item.canUse) {
       this.gotBonus();
     }
   }

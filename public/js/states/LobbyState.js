@@ -14,12 +14,12 @@ class LobbyState extends Phaser.State {
       font: '45px Schoolbell',
       fill: '#ffffff'
     })
-    this.playersMsg = this.game.add.text(64, 130, 'Press [ENTER] to start game for all players', {
+    this.playersMsg = this.game.add.text(64, 130, 'Press [ENTER] to start game \nfor all players', {
       font: '30px Schoolbell',
       fill: '#ffffff'
     })
 
-    this.lobbyNamesList = new NamesList(this.game, 64, 200, '')
+    this.lobbyNamesList = new NamesList(this.game, 64, 230, '')
 
     this.game.state.add('game', GameState)
 
