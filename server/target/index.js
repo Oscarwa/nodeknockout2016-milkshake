@@ -13,7 +13,7 @@ function initTarget() {
       x: Math.floor(800 * Math.random()),
       y: Math.floor(600 * Math.random())
     },
-    bonus: Math.random() > 0.5
+    bonus: Math.random() > 0.7
   }
 }
 
@@ -29,7 +29,45 @@ function targetHandlers(socket, io){
   });
 }
 
+function bonusHandler(socket, io) {
+  socket.on('bonus', function(type) {
+    console.log(type)
+    switch (type) {
+      case 'bomb':
+        var points = Math.floor(Math.random() * 200);
+        _.each(UI.getUsers(), function(user) {
+          if(user.id !== socket.id) {
+            user.points -= points;
+            if(user.points < 0) {
+              user.points = 0;
+            }
+          }
+        });
+        io.emit('pointsUpdated', UI.getUsers())
+        break;
+      case 'lighting':
+        socket.broadcast.emit('bonus', 'lighting')
+        break;
+      case 'timer':
+        socket.emit('bonus', 'timer')
+        break;
+      case 'bonus':
+        //console.log('bonus')
+        var currentUser = _.find(UI.getUsers(), function(user){
+          return user.id === socket.id
+        })
+        //console.log(currentUser)
+        if(currentUser) currentUser.points += Math.floor(Math.random() * 200)
+        io.emit('pointsUpdated', UI.getUsers())
+        break;
+      default:
+
+    }
+  })
+}
+
 module.exports = {
   targetHandlers: targetHandlers,
+  bonusHandler: bonusHandler,
   initTarget: initTarget
 }

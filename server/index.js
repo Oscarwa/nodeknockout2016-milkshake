@@ -29,6 +29,7 @@ app.io.on('connection', function(socket) {
 
   UI.UISocketHandlers(socket, app.io)
   target.targetHandlers(socket, app.io)
+  target.bonusHandler(socket, app.io)
   console.log('users connected now', UI.getUsers().length)
   console.log(UI.getUsers())
 

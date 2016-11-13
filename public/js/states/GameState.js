@@ -64,7 +64,7 @@ class GameState extends Phaser.State {
     //this.setTargetPosition();
     this.initTarget()
 
-    this.counter = 9
+    this.counter = 90
     this.timer = this.game.add.text(680, 560, `Time Remaining: ${this.counter}`, {
       font: '26px Schoolbell',
       fill: '#000'
@@ -88,7 +88,7 @@ class GameState extends Phaser.State {
   }
 
   gotBonus() {
-    var bonuses = ['bomb', 'timer', 'bonus']
+    var bonuses = ['bomb', 'timer', 'bonus', 'lighting']
 
     this.item = {
       canUse: true,
@@ -126,6 +126,17 @@ class GameState extends Phaser.State {
     this.target.reset(data.startPosition.x, data.startPosition.y);
     this.target.body.velocity.x = data.velocity.x;
     this.target.body.velocity.y = data.velocity.y;
+
+    this.slowTimer--;
+    this.lightingTimer--;
+    if(this.slowTimer > 0) {
+      this.target.body.velocity.x /= 2;
+      this.target.body.velocity.y /= 2;
+    }
+    if(this.lightingTimer > 0) {
+      this.target.body.velocity.x *= 2;
+      this.target.body.velocity.y *= 2;
+    }
   }
 
   update() {
@@ -133,10 +144,10 @@ class GameState extends Phaser.State {
       if(!!this.item && this.item.canUse) {
         console.info('bonus used');
         this.fx.play('item')
+        socketEvent('bonus', this.item.type)
         this.item.canUse = false;
         this.item.type = 'blank'
         this.bonus.loadTexture(this.item.type);
-
       }
     }
   }
@@ -156,6 +167,7 @@ class GameState extends Phaser.State {
     this.game.load.image('bomb', 'img/bombs.png');
     this.game.load.image('timer', 'img/timer.png');
     this.game.load.image('bonus', 'img/bonus.png');
+    this.game.load.image('lighting', 'img/lighting.png');
     this.game.load.image('blank', 'img/blank.png');
 
 
@@ -197,7 +209,22 @@ class GameState extends Phaser.State {
       this.setTargetPosition(data.target);
     });
 
-    socketListen('bonus')
+    socketListen('bonus', (type) => {
+      switch (type) {
+        case 'lighting':
+          this.lightingTimer = 5;
+          this.slowTimer = 0;
+          this.target.body.velocity.x *= 2;
+          this.target.body.velocity.y *= 2;
+          break;
+        case 'timer':
+          this.slowTimer = 10;
+          this.lightingTimer = 0;
+          this.target.body.velocity.x /= 2;
+          this.target.body.velocity.y /= 2;
+          break;
+      }
+    })
   }
 }
 
