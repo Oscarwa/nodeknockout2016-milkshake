@@ -48,10 +48,6 @@ class GameState extends Phaser.State {
       font: '26px Schoolbell',
       fill: '#ffffff'
     })
-    this.nameBannerSubtitle = this.game.add.text(30, 45, constants.GAME_INSTRUCTION, {
-      font: '22px Schoolbell',
-      fill: '#ffffff'
-    })
 
     //socketListen('namesUpdated', this.updateList)
     this.namesList = new NamesList(this.game, 700, 50, '')
@@ -67,7 +63,7 @@ class GameState extends Phaser.State {
     //this.setTargetPosition();
     this.initTarget()
 
-    this.counter = 160
+    this.counter = 90
     this.timer = this.game.add.text(680, 560, `Time Remaining: ${this.counter}`, {
       font: '26px Schoolbell',
       fill: '#000'
