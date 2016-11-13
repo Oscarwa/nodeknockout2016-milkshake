@@ -14,7 +14,7 @@ class GameState extends Phaser.State {
 
   create() {
     //physics & setup
-    var bgIndex = Math.floor(Math.random() * 5) + 1;
+    var bgIndex = Math.ceil(Math.random() * 5);
     var bg = this.game.add.image(0, 0, 'bg' + bgIndex);
     bg.scale.set(1.1);
     // bg.anchor.set(0.5);

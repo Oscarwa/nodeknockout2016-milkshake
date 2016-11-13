@@ -24,6 +24,10 @@ export const sendStartGame = () => {
   socketEvent('startGame')
 }
 
+export const sendRestart = () => {
+  socketEvent('restart')
+}
+
 export const socketListen = (eventName, callback) => {
   socket.on(eventName, callback);
 }

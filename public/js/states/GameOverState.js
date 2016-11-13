@@ -1,3 +1,4 @@
+import { sendRestart } from 'utils/sockets'
 import MainMenuState from 'states/MainMenuState'
 
 class GameOverState extends Phaser.State {
@@ -23,6 +24,7 @@ class GameOverState extends Phaser.State {
   }
 
   onRestart = () => {
+    sendRestart()
     this.game.state.start('lobby')
     location.reload();
   }

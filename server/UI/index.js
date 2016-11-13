@@ -28,8 +28,12 @@ var UISocketHandlers = function(socket, io){
 function getUsers(){
   return users
 }
+function setUsers(data){
+  users = data
+}
 
 module.exports = {
   UISocketHandlers: UISocketHandlers,
-  getUsers: getUsers
+  getUsers: getUsers,
+  setUsers: setUsers
 }
