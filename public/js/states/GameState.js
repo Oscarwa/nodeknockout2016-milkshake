@@ -14,7 +14,7 @@ class GameState extends Phaser.State {
     this.BGM = this.game.add.audio('bgm');
     this.BGM.loopFull();
 
-    this.bigfoot = this.game.add.sprite(40, 100, 'bigfoot');
+    //this.bigfoot = this.game.add.sprite(40, 100, 'bigfoot');
 
     //render target
     this.target = this.game.add.sprite(100, 120, 'target');
@@ -111,7 +111,6 @@ class GameState extends Phaser.State {
 
   updateList = (names) => {
     const usersList = names.reduce((prev, next) =>`${prev}${next.name}  ${50}\n`, 'Users:\n')
-    debugger
     this.namesList.setText(usersList)
   }
 
