@@ -18,13 +18,12 @@ function initTarget() {
 
 function targetHandlers(socket, io){
   socket.on('shoot', function(data) {
-    var currentUser = _.find(UI.users, function(user){
+    var currentUser = _.find(UI.getUsers(), function(user){
       return user.id === socket.id
     })
-    currentUser.points+=50
+    if(currentUser) currentUser.points+=50
     currentTarget = initTarget()
-    console.log(UI.users)
-    io.emit('namesUpdated', UI.users)
+    io.emit('namesUpdated', UI.getUsers())
     io.emit('shoot', {data: data, target: currentTarget});
   });
 }

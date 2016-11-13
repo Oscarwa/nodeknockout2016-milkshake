@@ -20,7 +20,7 @@ class GameState extends Phaser.State {
     this.target.scale.set(0.15);
 
     //users list
-    this.namesList = this.game.add.text(700, 50, 'testing text', {
+    this.namesList = this.game.add.text(700, 50, '', {
       font: '26px Schoolbell',
       fill: '#000000'
     })

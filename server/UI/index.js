@@ -9,11 +9,6 @@ var UISocketHandlers = function(socket, io){
   }
   users.push(userData)
 
-  socket.on('saveName', function(name) {
-    users.push({ name: name, points: 0 })
-    io.emit('namesUpdated', users)
-  })
-
   socket.on('nameChanged', function(name) {
     userData.name = name
     socket.broadcast.emit('namesUpdated', users)
@@ -23,12 +18,17 @@ var UISocketHandlers = function(socket, io){
     users = _.filter(users, function(user){
       return user.id !== socket.id
     })
+    console.log('users connected now', users.length)
+    console.log(users)
     socket.broadcast.emit('namesUpdated', users)
   })
 }
 
+function getUsers(){
+  return users
+}
 
 module.exports = {
   UISocketHandlers: UISocketHandlers,
-  users: users
+  getUsers: getUsers
 }
