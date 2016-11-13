@@ -17,7 +17,7 @@ class MainMenuState extends Phaser.State {
     this.nameMsg = this.game.make.bitmapData(800, 200)
     this.nameMsg.context.font = '32px Schoolbell'
     this.nameMsg.context.fillStyle = '#ffffff'
-    this.nameMsg.context.fillText(constants.ENTER_NAME, 64, 64)
+    this.nameMsg.context.fillText(constants.ENTER_NAME, 128, 350)
     this.nameMsg.addToWorld()
 
     this.bmd = this.game.make.bitmapData(800,200)
@@ -34,13 +34,13 @@ class MainMenuState extends Phaser.State {
   deleteCharFromName() {
     globals.username = globals.username.slice(0, globals.username.length-1)
     this.bmd.cls()
-    this.bmd.context.fillText(globals.username, 64, 128)
+    this.bmd.context.fillText(globals.username, 128, 450)
   }
 
   keyPress(char) {
     globals.username += char
     this.bmd.cls()
-    this.bmd.context.fillText(globals.username, 64, 128)
+    this.bmd.context.fillText(globals.username, 128, 450)
   }
 
   saveName() {
