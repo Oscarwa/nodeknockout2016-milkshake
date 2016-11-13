@@ -11,10 +11,10 @@ class LobbyState extends Phaser.State {
     enter.onDown.add(this.onEnter, this)
 
     this.lobbyMsg = this.game.add.text(64, 64, 'Lobby', {
-      font: '26px Schoolbell',
+      font: '45px Schoolbell',
       fill: '#ffffff'
     })
-    this.playersMsg = this.game.add.text(64, 130, 'Players Ready:', {
+    this.playersMsg = this.game.add.text(64, 130, 'Press [ENTER] to start game for all players', {
       font: '30px Schoolbell',
       fill: '#ffffff'
     })
