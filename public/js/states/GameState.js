@@ -78,6 +78,7 @@ class GameState extends Phaser.State {
 
   preload() {
     this.game.load.image('target', 'img/target.png');
+    this.game.load.image('blueTarget', 'img/blue-target.png');
     this.game.load.image('broken_target', 'img/broken_target.png');
     this.game.load.image('bg', 'img/game-background-p2-1.jpg');
     this.game.load.image('broken_target_enemy', 'img/blue-target-broken.png');
@@ -108,6 +109,12 @@ class GameState extends Phaser.State {
         this.emitter.x = this.target.position.x;
         this.emitter.y = this.target.position.y;
         this.emitter.start(true, 2000, null, 5);
+      }
+      if(data.target.bonus) {
+        console.info('bonus!');
+        this.target.loadTexture('blueTarget');
+      } else {
+        this.target.loadTexture('target');
       }
 
       this.setTargetPosition(data.target);
