@@ -6,7 +6,7 @@ function lobbyHandlers(socket, io) {
       console.log('sending game over')
       io.emit('gameOver')
       gameRunning = false
-    }, 10000)
+    }, 90000)
     if(!gameRunning) {
       io.emit('gameStarting')
       gameRunning = true

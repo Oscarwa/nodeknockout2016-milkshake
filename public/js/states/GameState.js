@@ -69,7 +69,7 @@ class GameState extends Phaser.State {
     //this.setTargetPosition();
     this.initTarget()
 
-    this.counter = 10
+    this.counter = 90
     this.timer = this.game.add.text(680, 560, `Time Remaining: ${this.counter}`, {
       font: '26px Schoolbell',
       fill: '#000'
