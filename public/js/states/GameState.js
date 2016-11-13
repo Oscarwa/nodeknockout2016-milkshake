@@ -1,6 +1,10 @@
 import { socketEvent, sendTargetData, sendShootData, socketListen } from 'utils/sockets'
 import globals from 'utils/globals'
+<<<<<<< e3cbf19fe48ef69c7421d0ea94ac7dcdffa2a3ab
 import constants from 'utils/constants'
+=======
+import NamesList from 'objects/NamesList'
+>>>>>>> Created list object
 
 class GameState extends Phaser.State {
 
@@ -25,10 +29,7 @@ class GameState extends Phaser.State {
     this.target.scale.set(0.15);
 
     //users list
-    this.namesList = this.game.add.text(850, 40, '', {
-      font: '26px Schoolbell',
-      fill: '#ffffff'
-    })
+
     this.nameBanner = this.game.add.text(30, 15, constants.GAME_WELCOME_MESSAGE+constants.GAME_NAME, {
       font: '26px Schoolbell',
       fill: '#ffffff'
@@ -37,9 +38,14 @@ class GameState extends Phaser.State {
       font: '22px Schoolbell',
       fill: '#ffffff'
     })
+    this.namesList = new NamesList(this.game, 700, 50, '')
 
+    // this.namesList = this.game.make.bitmapData(800, 600)
+    // this.namesList.context.font = '22px Asul'
+    // this.namesList.context.lineSpacing = 20
+    // this.namesList.context.fillStyle = '#ffffff'
+    // this.namesList.addToWorld()
 
-    socketListen('namesUpdated', this.updateList)
 
     //target physics
     this.game.physics.arcade.enable(this.target);
