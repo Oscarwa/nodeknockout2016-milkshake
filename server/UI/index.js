@@ -1,11 +1,13 @@
 var _ = require('lodash')
 
 var users = []
+var guestNumber = 0
 
 var UISocketHandlers = function(socket, io){  
   var userData = {
     id: socket.id,
-    points: 0
+    points: 0,
+    name: `Guest${guestNumber++}`
   }
   users.push(userData)
 

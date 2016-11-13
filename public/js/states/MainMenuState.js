@@ -1,4 +1,5 @@
 import LobbyState from 'states/LobbyState'
+import GameState from 'states/GameState'
 import { socketEvent, sendName, socketListen } from 'utils/sockets'
 import globals from 'utils/globals'
 import constants from 'utils/constants'
@@ -48,11 +49,10 @@ class MainMenuState extends Phaser.State {
     this.button = this.game.add.button(this.game.world.centerX + 200, 280, 'button', this.onGo, this, 2, 1, 0)
     this.button.visible = false;
 
-    // socketListen('namesUpdated', this.updateList)
-
     this.game.input.keyboard.addCallbacks(this, null, null, this.keyPress)
 
-    this.game.state.add('lobby', LobbyState);
+    // this.game.state.add('lobby', LobbyState);
+    this.game.state.add('game', GameState);
   }
 
   deleteCharFromName() {
@@ -60,11 +60,7 @@ class MainMenuState extends Phaser.State {
     this.bmd.cls()
     this.bmd.context.fillText(globals.username, 100, 320)
   }
-
-  onGo(){
-    this.game.state.start('game')
-  }
-
+  
   keyPress(char) {
     globals.username += char
     this.bmd.cls()
@@ -73,7 +69,7 @@ class MainMenuState extends Phaser.State {
 
   onEnter() {
     sendName(globals.username)
-    this.game.state.start('lobby')
+    this.game.state.start('game')
   }
 
   preload() {
