@@ -13,7 +13,7 @@ function initTarget() {
       x: Math.floor(800 * Math.random()),
       y: Math.floor(600 * Math.random())
     },
-    bonus: Math.random() > 0.96 
+    bonus: Math.random() > 0.5
   }
 }
 

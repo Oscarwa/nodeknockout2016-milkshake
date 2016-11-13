@@ -6,8 +6,8 @@ class GameState extends Phaser.State {
 
   create() {
     //physics & setup
-    //var bgIndex = Math.floor(Math.random() * 5) + 1;
-    var bg = this.game.add.image(0, 0, 'bg1');
+    var bgIndex = Math.floor(Math.random() * 5) + 1;
+    var bg = this.game.add.image(0, 0, 'bg' + bgIndex);
     bg.scale.set(1.1);
     // bg.anchor.set(0.5);
     this.game.physics.startSystem(Phaser.Physics.Arcade);
@@ -17,7 +17,20 @@ class GameState extends Phaser.State {
     this.BGM = this.game.add.audio('bgm');
     this.BGM.loopFull();
 
-    this.game.
+    this.fx = this.game.add.audio('sfx');
+    this.fx.addMarker('item', 1, 1.0);
+  	this.fx.addMarker('boss hit', 3, 0.5);
+  	this.fx.addMarker('escape', 4, 3.2);
+  	this.fx.addMarker('meow', 8, 0.5);
+  	this.fx.addMarker('numkey', 9, 0.1);
+  	this.fx.addMarker('ping', 10, 1.0);
+  	this.fx.addMarker('death', 12, 4.2);
+    this.fx.addMarker('shot', 17, 1.0);
+  	this.fx.addMarker('squit', 19, 0.3);
+
+    this.bonus = this.game.add.sprite(970, 550, 'blank');
+    this.bonus.anchor.set(0.5);
+    // this.bonus.scale.set(0.2);
 
     //render target
     this.target = this.game.add.sprite(100, 120, 'target');
@@ -39,6 +52,7 @@ class GameState extends Phaser.State {
     })
 
 
+
     socketListen('namesUpdated', this.updateList)
 
     //target physics
@@ -53,6 +67,16 @@ class GameState extends Phaser.State {
     this.initTarget()
   }
 
+  gotBonus() {
+    var bonuses = ['bomb', 'timer', 'bonus']
+
+    this.item = {
+      canUse: true,
+      type: bonuses[Math.floor(Math.random() * bonuses.length)]
+    }
+
+    this.bonus.loadTexture(this.item.type);
+  }
 
   shoot(pointer) {
     this.hitSound.play();
@@ -66,6 +90,11 @@ class GameState extends Phaser.State {
     this.emitter.x = this.target.position.x;
     this.emitter.y = this.target.position.y;
     this.emitter.start(true, 2000, null, 5);
+
+    //bonus
+    if (this.canShootBonus) {
+      this.gotBonus();
+    }
   }
 
   updateList = (names) => {
@@ -79,6 +108,19 @@ class GameState extends Phaser.State {
     this.target.body.velocity.y = data.velocity.y;
   }
 
+  update() {
+    if (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
+      if(!!this.item && this.item.canUse) {
+        console.info('bonus used');
+        this.fx.play('item')
+        this.item.canUse = false;
+        this.item.type = 'blank'
+        this.bonus.loadTexture(this.item.type);
+
+      }
+    }
+  }
+
   preload() {
     this.game.load.image('target', 'img/target.png');
     this.game.load.image('blueTarget', 'img/blue-target.png');
@@ -88,18 +130,19 @@ class GameState extends Phaser.State {
     this.game.load.image('bg3', 'img/game-background-p2-3.jpg');
     this.game.load.image('bg4', 'img/game-background-p2-4.jpg');
     this.game.load.image('bg5', 'img/game-background-p2-5.jpg');
-
     this.game.load.image('broken_target_enemy', 'img/blue-target-broken.png');
 
     //items
-    this.game.load.image('bomb', 'img/bomb.png');
+    this.game.load.image('bomb', 'img/bombs.png');
     this.game.load.image('timer', 'img/timer.png');
     this.game.load.image('bonus', 'img/bonus.png');
+    this.game.load.image('blank', 'img/blank.png');
 
 
     this.game.load.audio('bgm', 'sound/bgm.mp3');
     this.game.load.audio('hit', 'sound/crash.ogg');
     this.game.load.audio('hit2', 'sound/blop.mp3');
+    this.game.load.audio('sfx', 'sound/fx.mp3');
 
     this.game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js');
   }
@@ -126,11 +169,12 @@ class GameState extends Phaser.State {
         this.emitter.start(true, 2000, null, 5);
       }
       if(data.target.bonus) {
-        console.info('bonus!');
         this.target.loadTexture('blueTarget');
       } else {
         this.target.loadTexture('target');
       }
+      this.canShootBonus = data.target.bonus;
+
 
       this.setTargetPosition(data.target);
     });
