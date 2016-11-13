@@ -1,13 +1,14 @@
 import { socketEvent, sendTargetData, sendShootData, socketListen } from 'utils/sockets'
 import globals from 'utils/globals'
+import constants from 'utils/constants'
 
 class GameState extends Phaser.State {
 
   create() {
     //physics & setup
-    var bg = this.game.add.image(this.game.world.centerX, this.game.world.centerY, 'bg');
-    bg.scale.set(0.55);
-    bg.anchor.set(0.5);
+    var bg = this.game.add.image(0, 0, 'bg');
+    bg.scale.set(1.1);
+    // bg.anchor.set(0.5);
     this.game.physics.startSystem(Phaser.Physics.Arcade);
     this.game.renderer.renderSession.roundPixels = true;
     this.hitSound = this.game.add.audio('hit');
@@ -20,9 +21,17 @@ class GameState extends Phaser.State {
     this.target.scale.set(0.15);
 
     //users list
-    this.namesList = this.game.add.text(700, 50, '', {
+    this.namesList = this.game.add.text(850, 40, '', {
       font: '26px Schoolbell',
-      fill: '#000000'
+      fill: '#ffffff'
+    })
+    this.nameBanner = this.game.add.text(30, 15, constants.GAME_WELCOME_MESSAGE+constants.GAME_NAME, {
+      font: '26px Schoolbell',
+      fill: '#ffffff'
+    })
+    this.nameBannerSubtitle = this.game.add.text(30, 45, constants.GAME_INSTRUCTION, {
+      font: '22px Schoolbell',
+      fill: '#ffffff'
     })
     // this.namesList = this.game.make.bitmapData(800, 600)
     // this.namesList.context.font = '22px Asul'
@@ -121,7 +130,7 @@ class GameState extends Phaser.State {
   preload() {
     this.game.load.image('target', 'img/target.png');
     this.game.load.image('broken_target', 'img/broken_target.png');
-    this.game.load.image('bg', 'img/bg.jpg');
+    this.game.load.image('bg', 'img/game-background-p2-1.jpg');
     this.game.load.audio('bgm', 'sound/bgm.mp3');
     this.game.load.audio('hit', 'sound/crash.ogg');
     this.game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js');
