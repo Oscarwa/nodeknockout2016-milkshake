@@ -1,8 +1,8 @@
-import { 
-  socketEvent, 
-  sendTargetData, 
-  sendShootData, 
-  sendGameOver, 
+import {
+  socketEvent,
+  sendTargetData,
+  sendShootData,
+  sendGameOver,
   socketListen } from 'utils/sockets'
 import globals from 'utils/globals'
 import constants from 'utils/constants'
@@ -107,7 +107,11 @@ class GameState extends Phaser.State {
     this.hitSound.play();
     sendShootData({ player: globals.username });
     this.emitter = this.game.add.emitter(this.game.world.centerX, 200);
-    this.emitter.makeParticles('broken_target');
+    if(this.isBonusTarget) {
+      this.emitter.makeParticles('broken_target_enemy');
+    } else {
+      this.emitter.makeParticles('broken_target');
+    }
     this.emitter.bringToTop = true;
     this.emitter.minParticleScale = 0.13;
     this.emitter.maxParticleScale = 0.13;
@@ -117,7 +121,7 @@ class GameState extends Phaser.State {
     this.emitter.start(true, 2000, null, 5);
 
     //bonus
-    if (this.canShootBonus) {
+    if (this.isBonusTarget) {
       this.gotBonus();
     }
   }
@@ -196,7 +200,11 @@ class GameState extends Phaser.State {
       if(globals.username !== data.data.player) {
         this.hit2Sound.play();
         this.emitter = this.game.add.emitter(this.game.world.centerX, 200);
-        this.emitter.makeParticles('broken_target_enemy');
+        if(this.isBonusTarget) {
+          this.emitter.makeParticles('broken_target_enemy');
+        } else {
+          this.emitter.makeParticles('broken_target');
+        }
         this.emitter.bringToTop = true;
         this.emitter.minParticleScale = 0.13;
         this.emitter.maxParticleScale = 0.13;
@@ -210,7 +218,7 @@ class GameState extends Phaser.State {
       } else {
         this.target.loadTexture('target');
       }
-      this.canShootBonus = data.target.bonus;
+      this.isBonusTarget = data.target.bonus;
       this.setTargetPosition(data.target);
     });
 
