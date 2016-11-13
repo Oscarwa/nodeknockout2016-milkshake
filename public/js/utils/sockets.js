@@ -16,6 +16,14 @@ export const sendName = (data) => {
   socketEvent('nameChanged', data)
 }
 
+export const sendGameOver = () => {
+  socketEvent('gameOver')
+}
+
+export const sendStartGame = () => {
+  socketEvent('startGame')
+}
+
 export const socketListen = (eventName, callback) => {
   socket.on(eventName, callback);
 }

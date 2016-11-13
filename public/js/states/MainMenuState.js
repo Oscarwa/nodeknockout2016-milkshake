@@ -51,7 +51,7 @@ class MainMenuState extends Phaser.State {
 
     this.game.input.keyboard.addCallbacks(this, null, null, this.keyPress)
 
-    // this.game.state.add('lobby', LobbyState);
+    this.game.state.add('lobby', LobbyState);
     this.game.state.add('game', GameState);
   }
 
@@ -60,7 +60,7 @@ class MainMenuState extends Phaser.State {
     this.bmd.cls()
     this.bmd.context.fillText(globals.username, 100, 320)
   }
-  
+
   keyPress(char) {
     globals.username += char
     this.bmd.cls()
@@ -68,8 +68,7 @@ class MainMenuState extends Phaser.State {
   }
 
   onEnter() {
-    sendName(globals.username)
-    this.game.state.start('game')
+    this.game.state.start('lobby')
   }
 
   preload() {

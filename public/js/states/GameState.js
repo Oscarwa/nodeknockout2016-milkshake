@@ -1,4 +1,9 @@
-import { socketEvent, sendTargetData, sendShootData, socketListen } from 'utils/sockets'
+import { 
+  socketEvent, 
+  sendTargetData, 
+  sendShootData, 
+  sendGameOver, 
+  socketListen } from 'utils/sockets'
 import globals from 'utils/globals'
 import constants from 'utils/constants'
 import NamesList from 'objects/NamesList'
@@ -64,25 +69,25 @@ class GameState extends Phaser.State {
     //this.setTargetPosition();
     this.initTarget()
 
-    this.counter = 9
+    this.counter = 10
     this.timer = this.game.add.text(680, 560, `Time Remaining: ${this.counter}`, {
       font: '26px Schoolbell',
       fill: '#000'
     })
     this.game.time.events.loop(Phaser.Timer.SECOND, this.updateTimeCounter, this)
-
+    socketListen('gameOver', this.finishGame)
     this.game.state.add('gameover', GameOverState)
   }
 
   updateTimeCounter() {
     this.counter--
     this.timer.setText(`Time Remaining: ${this.counter}`)
-    if(this.counter === 0) {
-      this.finishGame()
-    }
+    // if(this.counter === 0) {
+    //   this.finishGame()
+    // }
   }
 
-  finishGame() {
+  finishGame = () => {
     this.BGM.stop()
     this.game.state.start('gameover')
   }

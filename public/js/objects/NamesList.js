@@ -7,6 +7,7 @@ class NamesList extends Phaser.Text {
             fill: '#ffffff' })
     this.game.stage.addChild(this);
     socketListen('pointsUpdated', this.updateList)
+    socketListen('namesUpdated', this.updateList)
     socketListen('newUser', this.updateList)
   }
 
