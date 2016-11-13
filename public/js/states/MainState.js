@@ -48,6 +48,11 @@ class MainState extends Phaser.State {
 
     socketListen('shoot', (data) => {
       //console.log(data);
+
+      // another player clicked first, hide target
+      this.game.add.tween(this.target.scale).to( { x: 2, y: 2 }, 2000, Phaser.Easing.Linear.None, true);
+
+
       this.setTargetPosition(data.target);
     });
   }
