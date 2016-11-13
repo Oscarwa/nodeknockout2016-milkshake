@@ -57,21 +57,21 @@ class LobbyState extends Phaser.State {
 
 
     this.game.add.sprite(570, 250, 'bomb').scale.set(0.6);
-    this.game.add.text(650, 260, 'Bomb', {
+    this.game.add.text(700, 260, 'Bomb', {
       font: '20px Schoolbell',
       fill: '#ffffff'
     })
-    this.game.add.text(650, 285, 'Explodes the current target immediately', {
+    this.game.add.text(700, 285, 'Explodes the current target immediately', {
       font: '14px Schoolbell',
       fill: '#ffffff'
     })
 
     this.game.add.sprite(570, 330, 'timer').scale.set(0.55);
-    this.game.add.text(650, 325, 'Timer', {
+    this.game.add.text(700, 325, 'Timer', {
       font: '20px Schoolbell',
       fill: '#ffffff'
     })
-    this.game.add.text(650, 350, 'Slow down your target\'s speed\nfor the next 10 targets', {
+    this.game.add.text(700, 350, 'Slow down your target\'s speed\nfor the next 10 targets', {
       font: '14px Schoolbell',
       fill: '#ffffff'
     })
