@@ -4,11 +4,8 @@ class NamesList extends Phaser.Text {
   constructor(game, x, y, text) {
     super(game, x, y, text, { 
             font: '26px Schoolbell',
-            fill: '#000000'
-          })
-
+            fill: '#ffffff' })
     this.game.stage.addChild(this);
-
     socketListen('pointsUpdated', this.updateList)
     socketListen('newUser', this.updateList)
   }

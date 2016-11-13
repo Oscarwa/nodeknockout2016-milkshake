@@ -1,19 +1,14 @@
 import { socketEvent, sendTargetData, sendShootData, socketListen } from 'utils/sockets'
 import globals from 'utils/globals'
-<<<<<<< e3cbf19fe48ef69c7421d0ea94ac7dcdffa2a3ab
 import constants from 'utils/constants'
-=======
 import NamesList from 'objects/NamesList'
->>>>>>> Created list object
 
 class GameState extends Phaser.State {
 
   create() {
     //physics & setup
-    //var bgIndex = Math.floor(Math.random() * 5) + 1;
     var bg = this.game.add.image(0, 0, 'bg1');
     bg.scale.set(1.1);
-    // bg.anchor.set(0.5);
     this.game.physics.startSystem(Phaser.Physics.Arcade);
     this.game.renderer.renderSession.roundPixels = true;
     this.hitSound = this.game.add.audio('hit');
@@ -21,15 +16,12 @@ class GameState extends Phaser.State {
     this.BGM = this.game.add.audio('bgm');
     this.BGM.loopFull();
 
-    this.game.
-
     //render target
     this.target = this.game.add.sprite(100, 120, 'target');
     this.target.anchor.set(0.5);
     this.target.scale.set(0.15);
 
     //users list
-
     this.nameBanner = this.game.add.text(30, 15, constants.GAME_WELCOME_MESSAGE+constants.GAME_NAME, {
       font: '26px Schoolbell',
       fill: '#ffffff'
@@ -39,13 +31,6 @@ class GameState extends Phaser.State {
       fill: '#ffffff'
     })
     this.namesList = new NamesList(this.game, 700, 50, '')
-
-    // this.namesList = this.game.make.bitmapData(800, 600)
-    // this.namesList.context.font = '22px Asul'
-    // this.namesList.context.lineSpacing = 20
-    // this.namesList.context.fillStyle = '#ffffff'
-    // this.namesList.addToWorld()
-
 
     //target physics
     this.game.physics.arcade.enable(this.target);
@@ -75,7 +60,7 @@ class GameState extends Phaser.State {
   }
 
   updateList = (names) => {
-    const usersList = names.reduce((prev, next) =>`${prev}${next.name}  ${next.points}\n`, 'Users:\n')
+    const usersList = names.reduce((prev, next) =>`${prev}${next.name}  ${next.points}\n`, '')
     this.namesList.setText(usersList)
   }
 
@@ -101,7 +86,6 @@ class GameState extends Phaser.State {
     this.game.load.image('bomb', 'img/bomb.png');
     this.game.load.image('timer', 'img/timer.png');
     this.game.load.image('bonus', 'img/bonus.png');
-
 
     this.game.load.audio('bgm', 'sound/bgm.mp3');
     this.game.load.audio('hit', 'sound/crash.ogg');
@@ -132,7 +116,6 @@ class GameState extends Phaser.State {
         this.emitter.start(true, 2000, null, 5);
       }
       if(data.target.bonus) {
-        console.info('bonus!');
         this.target.loadTexture('blueTarget');
       } else {
         this.target.loadTexture('target');
