@@ -6,14 +6,13 @@ var guestNumber = 0
 var UISocketHandlers = function(socket, io){  
   var userData = {
     id: socket.id,
-    points: 0,
-    name: `Guest${guestNumber++}`
+    points: 0
   }
   users.push(userData)
 
   socket.on('nameChanged', function(name) {
     userData.name = name
-    socket.broadcast.emit('namesUpdated', users)
+    socket.emit('namesUpdated', users)
   })
 
   socket.on('disconnect', function(data) {

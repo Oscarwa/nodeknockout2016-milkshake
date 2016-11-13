@@ -31,7 +31,6 @@ function targetHandlers(socket, io){
 
 function bonusHandler(socket, io) {
   socket.on('bonus', function(type) {
-    console.log(type)
     switch (type) {
       case 'bomb':
         var points = Math.floor(Math.random() * 200);
