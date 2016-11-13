@@ -25,7 +25,6 @@ class GameOverState extends Phaser.State {
 
   onRestart = () => {
     sendRestart()
-    this.game.state.start('lobby')
     location.reload();
   }
 
