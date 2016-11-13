@@ -21,7 +21,7 @@ class GameState extends Phaser.State {
 
     //users list
     this.namesList = this.game.add.text(700, 50, 'testing text', {
-      font: '22px Schoolbell',
+      font: '26px Schoolbell',
       fill: '#000000'
     })
     // this.namesList = this.game.make.bitmapData(800, 600)
@@ -108,7 +108,7 @@ class GameState extends Phaser.State {
   }
 
   updateList = (names) => {
-    const usersList = names.reduce((prev, next) =>`${prev}${next.name}  ${50}\n`, 'Users:\n')
+    const usersList = names.reduce((prev, next) =>`${prev}${next.name}  ${next.points}\n`, 'Users:\n')
     this.namesList.setText(usersList)
   }
 
