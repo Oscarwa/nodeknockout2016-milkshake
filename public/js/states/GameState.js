@@ -14,23 +14,16 @@ class GameState extends Phaser.State {
     this.BGM = this.game.add.audio('bgm');
     this.BGM.loopFull();
 
-    //this.bigfoot = this.game.add.sprite(40, 100, 'bigfoot');
-
     //render target
     this.target = this.game.add.sprite(100, 120, 'target');
     this.target.anchor.set(0.5);
     this.target.scale.set(0.15);
 
     //users list
-    this.namesList = this.game.add.text(700, 50, 'testing text', {
+    this.namesList = this.game.add.text(10, 48, 'testing text', {
       font: '22px Schoolbell',
       fill: '#000000'
     })
-    // this.namesList = this.game.make.bitmapData(800, 600)
-    // this.namesList.context.font = '22px Asul'
-    // this.namesList.context.lineSpacing = 20
-    // this.namesList.context.fillStyle = '#ffffff'
-    // this.namesList.addToWorld()
 
 
     socketListen('namesUpdated', this.updateList)
@@ -47,65 +40,18 @@ class GameState extends Phaser.State {
     this.initTarget()
   }
 
-//   WebFontConfig = {
-//
-//     //  'active' means all requested fonts have finished loading
-//     //  We set a 1 second delay before calling 'createText'.
-//     //  For some reason if we don't the browser cannot render the text the first time it's created.
-//     active: function() { this.game.time.events.add(Phaser.Timer.SECOND, createText, this); },
-//
-//     //  The Google Fonts we want to load (specify as many as you like in the array)
-//     google: {
-//       families: ['Schoolbell']
-//     }
-//
-// };
-// function createText() {
-//
-//     this.text = this.game.add.text(this.game.world.centerX, this.game.world.centerY, "web fonts");
-//     this.text.anchor.setTo(0.5);
-//
-//     this.text.font = 'Schoolbell';
-//     this.text.fontSize = 60;
-//
-//     //  x0, y0 - x1, y1
-//     this.grd = this.text.context.createLinearGradient(0, 0, 0, this.text.canvas.height);
-//     this.grd.addColorStop(0, '#8ED6FF');
-//     this.grd.addColorStop(1, '#004CB3');
-//     this.text.fill = grd;
-//
-//     this.text.align = 'center';
-//     this.text.stroke = '#000000';
-//     this.text.strokeThickness = 2;
-//     this.text.setShadow(5, 5, 'rgba(0,0,0,0.5)', 5);
-//
-//     this.text.inputEnabled = true;
-//     this.text.input.enableDrag();
-//
-//     this.text.events.onInputOver.add(over, this);
-//     this.text.events.onInputOut.add(out, this);
-//
-// }
 
   shoot(pointer) {
     this.hitSound.play();
     sendShootData({ player: globals.username });
     this.emitter = this.game.add.emitter(this.game.world.centerX, 200);
-
     this.emitter.makeParticles('broken_target');
-
-    // this.emitter.setXSpeed(-200, 200);
-    // this.emitter.setYSpeed(-150, -250);
-
     this.emitter.bringToTop = true;
-    //this.emitter.setAlpha(0.1, 1, 500);
     this.emitter.minParticleScale = 0.13;
     this.emitter.maxParticleScale = 0.13;
-    //this.emitter.setScale(-2, 2, 1, 1, 3000, Phaser.Easing.Sinusoidal.InOut, true);
     this.emitter.gravity = 1000;
-    this.emitter.x = pointer.x;
-    this.emitter.y = pointer.y;
-
+    this.emitter.x = this.target.position.x;
+    this.emitter.y = this.target.position.y;
     this.emitter.start(true, 2000, null, 5);
   }
 
@@ -123,6 +69,7 @@ class GameState extends Phaser.State {
   preload() {
     this.game.load.image('target', 'img/target.png');
     this.game.load.image('broken_target', 'img/broken_target.png');
+    this.game.load.image('broken_target_enemy', 'img/blue-target-broken.png');
     this.game.load.image('bg', 'img/bg.jpg');
     this.game.load.audio('bgm', 'sound/bgm.mp3');
     this.game.load.audio('hit', 'sound/crash.ogg');
@@ -138,6 +85,18 @@ class GameState extends Phaser.State {
     });
 
     socketListen('shoot', (data) => {
+      if(globals.username !== data.data.player) {
+        this.emitter = this.game.add.emitter(this.game.world.centerX, 200);
+        this.emitter.makeParticles('broken_target_enemy');
+        this.emitter.bringToTop = true;
+        this.emitter.minParticleScale = 0.13;
+        this.emitter.maxParticleScale = 0.13;
+        this.emitter.gravity = 1000;
+        this.emitter.x = this.target.position.x;
+        this.emitter.y = this.target.position.y;
+        this.emitter.start(true, 2000, null, 5);
+      }
+
       this.setTargetPosition(data.target);
     });
   }
