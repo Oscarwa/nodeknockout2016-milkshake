@@ -6,7 +6,8 @@ class GameState extends Phaser.State {
 
   create() {
     //physics & setup
-    var bg = this.game.add.image(0, 0, 'bg');
+    //var bgIndex = Math.floor(Math.random() * 5) + 1;
+    var bg = this.game.add.image(0, 0, 'bg1');
     bg.scale.set(1.1);
     // bg.anchor.set(0.5);
     this.game.physics.startSystem(Phaser.Physics.Arcade);
@@ -15,6 +16,8 @@ class GameState extends Phaser.State {
     this.hit2Sound = this.game.add.audio('hit2');
     this.BGM = this.game.add.audio('bgm');
     this.BGM.loopFull();
+
+    this.game.
 
     //render target
     this.target = this.game.add.sprite(100, 120, 'target');
@@ -80,8 +83,20 @@ class GameState extends Phaser.State {
     this.game.load.image('target', 'img/target.png');
     this.game.load.image('blueTarget', 'img/blue-target.png');
     this.game.load.image('broken_target', 'img/broken_target.png');
-    this.game.load.image('bg', 'img/game-background-p2-1.jpg');
+    this.game.load.image('bg1', 'img/game-background-p2-1.jpg');
+    this.game.load.image('bg2', 'img/game-background-p2-2.jpg');
+    this.game.load.image('bg3', 'img/game-background-p2-3.jpg');
+    this.game.load.image('bg4', 'img/game-background-p2-4.jpg');
+    this.game.load.image('bg5', 'img/game-background-p2-5.jpg');
+
     this.game.load.image('broken_target_enemy', 'img/blue-target-broken.png');
+
+    //items
+    this.game.load.image('bomb', 'img/bomb.png');
+    this.game.load.image('timer', 'img/timer.png');
+    this.game.load.image('bonus', 'img/bonus.png');
+
+
     this.game.load.audio('bgm', 'sound/bgm.mp3');
     this.game.load.audio('hit', 'sound/crash.ogg');
     this.game.load.audio('hit2', 'sound/blop.mp3');
