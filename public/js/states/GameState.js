@@ -80,9 +80,6 @@ class GameState extends Phaser.State {
   updateTimeCounter() {
     this.counter--
     this.timer.setText(`Time Remaining: ${this.counter}`)
-    // if(this.counter === 0) {
-    //   this.finishGame()
-    // }
   }
 
   finishGame = () => {
