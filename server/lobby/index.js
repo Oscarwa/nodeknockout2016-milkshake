@@ -4,11 +4,11 @@ var gameRunning = false
 
 function lobbyHandlers(socket, io) {
   socket.on('startGame', function(data) {
-    setTimeout(function(){
-      io.emit('gameOver')
-      gameRunning = false
-    }, 90000)
     if(!gameRunning) {
+      setTimeout(function(){
+        io.emit('gameOver')
+        gameRunning = false
+      }, 90000)
       io.emit('gameStarting')
       gameRunning = true
     }
