@@ -10,8 +10,6 @@ class MainMenuState extends Phaser.State {
 
     // GAME MENU BACKGROUND
     var splashMenu = this.game.add.image(0,0, 'splashMenu');
-    // splashMenu.scale.set(0.4);
-    // splashMenu.anchor.set(0.5);
 
     const backspace = this.game.input.keyboard.addKey(Phaser.KeyCode.BACKSPACE)
     backspace.onDown.add(this.deleteCharFromName, this)
