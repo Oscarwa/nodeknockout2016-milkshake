@@ -13,7 +13,7 @@ function initTarget() {
       x: Math.floor(800 * Math.random()),
       y: Math.floor(600 * Math.random())
     },
-    bonus: Math.random() > 0.7
+    bonus: Math.random() > 0.6
   }
 }
 
@@ -32,7 +32,7 @@ function targetHandlers(socket, io){
 function bonusHandler(socket, io) {
   socket.on('bonus', function(type) {
     switch (type) {
-      case 'bomb':
+      case 'bonus_down':
         var points = Math.floor(Math.random() * 200);
         _.each(UI.getUsers(), function(user) {
           if(user.id !== socket.id) {
@@ -43,6 +43,9 @@ function bonusHandler(socket, io) {
           }
         });
         io.emit('pointsUpdated', UI.getUsers())
+        break;
+      case 'bomb':
+        socket.emit('bonus', 'bomb');
         break;
       case 'lighting':
         socket.broadcast.emit('bonus', 'lighting')

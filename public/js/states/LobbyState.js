@@ -56,43 +56,53 @@ class LobbyState extends Phaser.State {
     })
 
 
-    this.game.add.sprite(570, 260, 'bomb').scale.set(0.8);
+    this.game.add.sprite(570, 250, 'bomb').scale.set(0.6);
     this.game.add.text(700, 260, 'Bomb', {
-      font: '26px Schoolbell',
+      font: '20px Schoolbell',
       fill: '#ffffff'
     })
-    this.game.add.text(700, 290, 'Explodes on enemies taking \ndown their score', {
-      font: '16px Schoolbell',
-      fill: '#ffffff'
-    })
-
-    this.game.add.sprite(565, 350, 'timer').scale.set(0.8);
-    this.game.add.text(700, 345, 'Timer', {
-      font: '26px Schoolbell',
-      fill: '#ffffff'
-    })
-    this.game.add.text(700, 375, 'Slow down your target\'s speed\nfor the next 10 targets', {
-      font: '16px Schoolbell',
+    this.game.add.text(700, 285, 'Explodes the current target immediately', {
+      font: '14px Schoolbell',
       fill: '#ffffff'
     })
 
-    this.game.add.sprite(570, 425, 'bonus').scale.set(0.8);
-    this.game.add.text(700, 435, 'Score++', {
-      font: '26px Schoolbell',
+    this.game.add.sprite(570, 330, 'timer').scale.set(0.55);
+    this.game.add.text(700, 325, 'Timer', {
+      font: '20px Schoolbell',
       fill: '#ffffff'
     })
-    this.game.add.text(700, 465, 'Gives you some extra score points', {
-      font: '16px Schoolbell',
+    this.game.add.text(700, 350, 'Slow down your target\'s speed\nfor the next 10 targets', {
+      font: '14px Schoolbell',
       fill: '#ffffff'
     })
 
-    this.game.add.sprite(565, 500, 'lighting').scale.set(0.8);
-    this.game.add.text(700, 500, 'Lighting', {
-      font: '26px Schoolbell',
+    this.game.add.sprite(570, 395, 'bonus').scale.set(0.6);
+    this.game.add.text(700, 400, 'Score++', {
+      font: '20px Schoolbell',
       fill: '#ffffff'
     })
-    this.game.add.text(700, 530, 'Speed up your enemies target\'s speed\nfor the next 5 targets', {
-      font: '16px Schoolbell',
+    this.game.add.text(700, 425, 'Gives you some extra score points', {
+      font: '14px Schoolbell',
+      fill: '#ffffff'
+    })
+
+    this.game.add.sprite(570, 455, 'bonus_down').scale.set(0.6);
+    this.game.add.text(700, 460, 'Score--', {
+      font: '20px Schoolbell',
+      fill: '#ffffff'
+    })
+    this.game.add.text(700, 485, 'Takes some points off your enemies', {
+      font: '14px Schoolbell',
+      fill: '#ffffff'
+    })
+
+    this.game.add.sprite(570, 520, 'lighting').scale.set(0.6);
+    this.game.add.text(700, 520, 'Lighting', {
+      font: '20px Schoolbell',
+      fill: '#ffffff'
+    })
+    this.game.add.text(700, 545, 'Speed up your enemies target\'s speed\nfor the next 5 targets', {
+      font: '14px Schoolbell',
       fill: '#ffffff'
     })
   }
@@ -108,6 +118,7 @@ class LobbyState extends Phaser.State {
     this.game.load.image('bomb', 'img/bombs.png');
     this.game.load.image('timer', 'img/timer.png');
     this.game.load.image('bonus', 'img/bonus.png');
+    this.game.load.image('bonus_down', 'img/bonus_down.png');
     this.game.load.image('lighting', 'img/lighting.png');
 
     this.game.load.image('target', 'img/target.png');

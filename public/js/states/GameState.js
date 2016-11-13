@@ -70,6 +70,7 @@ class GameState extends Phaser.State {
     })
 
     this.item = {};
+    this.spaceKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
     this.game.time.events.loop(Phaser.Timer.SECOND, this.updateTimeCounter, this)
     socketListen('gameOver', this.finishGame)
@@ -91,7 +92,7 @@ class GameState extends Phaser.State {
   }
 
   gotBonus() {
-    var bonuses = ['bomb', 'timer', 'bonus', 'lighting']
+    var bonuses = ['bonus_down', 'bomb', 'timer', 'bonus', 'lighting']
 
     this.item = {
       canUse: true,
@@ -147,7 +148,7 @@ class GameState extends Phaser.State {
   }
 
   update() {
-    if (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
+    if (this.spaceKey.downDuration(1)) {
       if(!!this.item && this.item.canUse) {
         this.fx.play('item')
         socketEvent('bonus', this.item.type)
@@ -173,6 +174,7 @@ class GameState extends Phaser.State {
     this.game.load.image('bomb', 'img/bombs.png');
     this.game.load.image('timer', 'img/timer.png');
     this.game.load.image('bonus', 'img/bonus.png');
+    this.game.load.image('bonus_down', 'img/bonus_down.png');
     this.game.load.image('lighting', 'img/lighting.png');
     this.game.load.image('blank', 'img/blank.png');
 
@@ -232,6 +234,9 @@ class GameState extends Phaser.State {
           this.lightingTimer = 0;
           this.target.body.velocity.x /= 2;
           this.target.body.velocity.y /= 2;
+          break;
+        case 'bomb':
+          this.shoot();
           break;
       }
     })
